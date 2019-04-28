@@ -1,7 +1,7 @@
 
 # simulation settings
-POP_SIZE = 1000     # cohort population size
-SIM_LENGTH = 1000   # length of simulation (years)
+POP_SIZE = 10000     # cohort population size
+SIM_LENGTH = 2000*52   # length of simulation (years)
 ALPHA = 0.05        # significance level for calculating confidence intervals
 DISCOUNT = 0.03     # annual discount rate
 
@@ -11,13 +11,13 @@ DISCOUNT = 0.03     # annual discount rate
 # rate transition matrix
 # CONSIDER MAKING CLEARED_TBM WITH A LOWER HEALTH UTILITY GIVEN ADVERSE SEQUELAE OF TBM
 SOC_RATE_TRANS_MATRIX = [
-    [0, 1/160, 7/480, 1/48,  0, 1/24, 0],   # INFECTED
-    [0,0,0, 141/250, 109/250, 0,0],               # HOSP_TBD
-    [0, 0, 0, 0, 109/250, 0,141/250],             # HOSP_TBM
-    [0, 0,0,0, 3/8000, 991/24000, 0],               # DX_TBD
-    [0,     0,   0,0,0,0,0],              # DEAD
-    [0, 0, 0, 0, 1/62.77, 0,0],                # CLEARED
-    [0, 0, 0, 0, 193/24000, 269/8000,0]                #DX_TBM
+    [0, 1/160,  7/480,     1/48,          0,      1/24,       0],   # INFECTED
+    [0,     0,      0,  141/250,    109/250,         0,       0],   # HOSP_TBD
+    [0,     0,      0,        0,    109/250,         0, 141/250],   # HOSP_TBM
+    [0,     0,      0,        0,     3/8000, 991/24000,       0],   # DX_TBD
+    [0,     0,      0,        0,          0,         0,       0],   # DEAD
+    [0,     0,      0,        0,1/(62.77*52),        0,       0],   # CLEARED
+    [0,     0,      0,        0,  193/24000,  269/8000,       0]    # DX_TBM
     ]
 
 # NEED TO UPDATE NSB RATE TRANS MATRIX

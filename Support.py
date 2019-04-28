@@ -6,10 +6,10 @@ import SimPy.EconEvalClasses as Econ
 import matplotlib.pyplot as plt
 
 
-def print_outcomes(sim_outcomes, therapy_name):
+def print_outcomes(sim_outcomes, diagnostic_name):
     """ prints the outcomes of a simulated cohort
     :param sim_outcomes: outcomes of a simulated cohort
-    :param therapy_name: the name of the selected therapy
+    :param diagnostic_name: the name of the selected diagnostic strategiy
     """
     # mean and confidence interval of patient survival time
     survival_mean_CI_text = sim_outcomes.statSurvivalTime\
@@ -17,35 +17,165 @@ def print_outcomes(sim_outcomes, therapy_name):
                                          alpha=D.ALPHA,
                                          deci=2)
 
-    # mean and confidence interval text of time to AIDS
-    time_to_HIV_death_CI_text = sim_outcomes.statTimeToAIDS\
+    # mean and confidence interval of event rates
+    time_INFECTEDtoHOSP_TBD_text = sim_outcomes.statTimeINFECTEDtoHOSP_TBD\
         .get_formatted_mean_and_interval(interval_type='c',
                                          alpha=D.ALPHA,
                                          deci=2)
 
-    # mean and confidence interval text of discounted total cost
-    cost_mean_CI_text = sim_outcomes.statCost\
-        .get_formatted_mean_and_interval(interval_type='c',
-                                         alpha=D.ALPHA,
-                                         deci=0,
-                                         form=',')
-
-    # mean and confidence interval text of discounted total utility
-    utility_mean_CI_text = sim_outcomes.statUtility\
+    time_INFECTEDtoHOSP_TBM_text = sim_outcomes.statTimeINFECTEDtoHOSP_TBM\
         .get_formatted_mean_and_interval(interval_type='c',
                                          alpha=D.ALPHA,
                                          deci=2)
+
+    time_INFECTEDtoDX_TBD_text = sim_outcomes.statTimeINFECTEDtoDX_TBD\
+        .get_formatted_mean_and_interval(interval_type='c',
+                                         alpha=D.ALPHA,
+                                         deci=2)
+
+    time_INFECTEDtoCLEARED_text = sim_outcomes.statTimeINFECTEDtoCLEARED\
+        .get_formatted_mean_and_interval(interval_type='c',
+                                         alpha=D.ALPHA,
+                                         deci=2)
+
+    time_CLEAREDtoDEAD_text = sim_outcomes.statTimeCLEAREDtoDEAD\
+        .get_formatted_mean_and_interval(interval_type='c',
+                                         alpha=D.ALPHA,
+                                         deci=2)
+
+    time_HOSP_TBDtoDEAD_text = sim_outcomes.statTimeHOSP_TBDtoDEAD\
+        .get_formatted_mean_and_interval(interval_type='c',
+                                         alpha=D.ALPHA,
+                                         deci=2)
+
+    time_HOSP_TBDtoDX_TBD_text = sim_outcomes.statTimeHOSP_TBDtoDX_TBD\
+        .get_formatted_mean_and_interval(interval_type='c',
+                                         alpha=D.ALPHA,
+                                         deci=2)
+
+    time_HOSP_TBMtoDEAD_text = sim_outcomes.statTimeHOSP_TBMtoDEAD\
+        .get_formatted_mean_and_interval(interval_type='c',
+                                         alpha=D.ALPHA,
+                                         deci=2)
+
+    time_HOSP_TBMtoDX_TBM_text = sim_outcomes.statTimeHOSP_TBMtoDX_TBM\
+        .get_formatted_mean_and_interval(interval_type='c',
+                                         alpha=D.ALPHA,
+                                         deci=2)
+
+    time_DX_TBDtoDEAD_text = sim_outcomes.statTimeDX_TBDtoDEAD\
+        .get_formatted_mean_and_interval(interval_type='c',
+                                         alpha=D.ALPHA,
+                                         deci=2)
+
+    time_DX_TBDtoCLEARED_text = sim_outcomes.statTimeDX_TBDtoCLEARED\
+        .get_formatted_mean_and_interval(interval_type='c',
+                                         alpha=D.ALPHA,
+                                         deci=2)
+
+    time_DX_TBMtoDEAD_text = sim_outcomes.statTimeDX_TBMtoDEAD\
+        .get_formatted_mean_and_interval(interval_type='c',
+                                         alpha=D.ALPHA,
+                                         deci=2)
+
+    time_DX_TBMtoCLEARED_text = sim_outcomes.statTimeDX_TBMtoCLEARED\
+        .get_formatted_mean_and_interval(interval_type='c',
+                                         alpha=D.ALPHA,
+                                         deci=2)
+
+    # time spent in each state
+    time_INFECTED_text = sim_outcomes.statTimesINFECTED\
+        .get_formatted_mean_and_interval(interval_type='c',
+                                         alpha=D.ALPHA,
+                                         deci=2)
+
+    time_HOSP_TBM_text = sim_outcomes.statTimesHOSP_TBM\
+        .get_formatted_mean_and_interval(interval_type='c',
+                                         alpha=D.ALPHA,
+                                         deci=2)
+
+    time_HOSP_TBD_text = sim_outcomes.statTimesHOSP_TBD\
+        .get_formatted_mean_and_interval(interval_type='c',
+                                         alpha=D.ALPHA,
+                                         deci=2)
+
+    time_DX_TBD_text = sim_outcomes.statTimesDX_TBD\
+        .get_formatted_mean_and_interval(interval_type='c',
+                                         alpha=D.ALPHA,
+                                         deci=2)
+
+    time_DX_TBM_text = sim_outcomes.statTimesDX_TBM\
+        .get_formatted_mean_and_interval(interval_type='c',
+                                         alpha=D.ALPHA,
+                                         deci=2)
+
+    time_CLEARED_text = sim_outcomes.statTimesCLEARED\
+        .get_formatted_mean_and_interval(interval_type='c',
+                                         alpha=D.ALPHA,
+                                         deci=2)
+
+    # # mean and confidence interval text of discounted total cost
+    # cost_mean_CI_text = sim_outcomes.statCost\
+    #     .get_formatted_mean_and_interval(interval_type='c',
+    #                                      alpha=D.ALPHA,
+    #                                      deci=0,
+    #                                      form=',')
+    #
+    # # mean and confidence interval text of discounted total utility
+    # utility_mean_CI_text = sim_outcomes.statUtility\
+    #     .get_formatted_mean_and_interval(interval_type='c',
+    #                                      alpha=D.ALPHA,
+    #                                      deci=2)
 
     # print outcomes
-    print(therapy_name)
+    print(diagnostic_name)
     print("  Estimate of mean survival time and {:.{prec}%} confidence interval:".format(1 - D.ALPHA, prec=0),
           survival_mean_CI_text)
-    print("  Estimate of mean time to AIDS and {:.{prec}%} confidence interval:".format(1 - D.ALPHA, prec=0),
-          time_to_HIV_death_CI_text)
-    print("  Estimate of discounted cost and {:.{prec}%} confidence interval:".format(1 - D.ALPHA, prec=0),
-          cost_mean_CI_text)
-    print("  Estimate of discounted utility and {:.{prec}%} confidence interval:".format(1 - D.ALPHA, prec=0),
-          utility_mean_CI_text)
+
+    print("  Estimate of mean time in state INFECTED and {:.{prec}%} confidence interval:".format(1 - D.ALPHA, prec=0),
+          time_INFECTED_text)
+    print("  Estimate of mean time in state HOSP_TBD and {:.{prec}%} confidence interval:".format(1 - D.ALPHA, prec=0),
+          time_HOSP_TBD_text)
+    print("  Estimate of mean time in state HOSP_TBM and {:.{prec}%} confidence interval:".format(1 - D.ALPHA, prec=0),
+          time_HOSP_TBM_text)
+    print("  Estimate of mean time in state DX_TBD and {:.{prec}%} confidence interval:".format(1 - D.ALPHA, prec=0),
+          time_DX_TBD_text)
+    print("  Estimate of mean time in state DX_TBM and {:.{prec}%} confidence interval:".format(1 - D.ALPHA, prec=0),
+          time_DX_TBM_text)
+    print("  Estimate of mean time in state CLEARED and {:.{prec}%} confidence interval:".format(1 - D.ALPHA, prec=0),
+          time_CLEARED_text)
+
+    print("  Estimate of mean time from INFECTED to HOSP_TBD and {:.{prec}%} confidence interval:".format(1 - D.ALPHA, prec=0),
+          time_INFECTEDtoHOSP_TBD_text)
+    print("  Estimate of mean time from INFECTED to HOSP_TBM and {:.{prec}%} confidence interval:".format(1 - D.ALPHA, prec=0),
+          time_INFECTEDtoHOSP_TBM_text)
+    print("  Estimate of mean time from INFECTED to DX_TBD and {:.{prec}%} confidence interval:".format(1 - D.ALPHA, prec=0),
+          time_INFECTEDtoDX_TBD_text)
+    print("  Estimate of mean time from INFECTED to CLEARED and {:.{prec}%} confidence interval:".format(1 - D.ALPHA, prec=0),
+          time_INFECTEDtoCLEARED_text)
+    print("  Estimate of mean time from HOSP_TBD to DX_TBD and {:.{prec}%} confidence interval:".format(1 - D.ALPHA, prec=0),
+          time_HOSP_TBDtoDX_TBD_text)
+    print("  Estimate of mean time from HOSP_TBD to DEAD and {:.{prec}%} confidence interval:".format(1 - D.ALPHA, prec=0),
+          time_HOSP_TBDtoDEAD_text)
+    print("  Estimate of mean time from HOSP_TBM to DX_TBM and {:.{prec}%} confidence interval:".format(1 - D.ALPHA, prec=0),
+          time_HOSP_TBMtoDX_TBM_text)
+    print("  Estimate of mean time from HOSP_TBM to DEAD and {:.{prec}%} confidence interval:".format(1 - D.ALPHA, prec=0),
+          time_HOSP_TBMtoDEAD_text)
+    print("  Estimate of mean time from DX_TBD to CLEARED and {:.{prec}%} confidence interval:".format(1 - D.ALPHA, prec=0),
+          time_DX_TBDtoCLEARED_text)
+    print("  Estimate of mean time from DX_TBD to DEAD and {:.{prec}%} confidence interval:".format(1 - D.ALPHA, prec=0),
+          time_DX_TBDtoDEAD_text)
+    print("  Estimate of mean time from DX_TBM to CLEARED and {:.{prec}%} confidence interval:".format(1 - D.ALPHA, prec=0),
+          time_DX_TBMtoCLEARED_text)
+    print("  Estimate of mean time from DX_TBM to DEAD and {:.{prec}%} confidence interval:".format(1 - D.ALPHA, prec=0),
+          time_DX_TBMtoDEAD_text)
+    print("  Estimate of mean time from CLEARED to DEAD and {:.{prec}%} confidence interval:".format(1 - D.ALPHA, prec=0),
+          time_CLEAREDtoDEAD_text)
+
+    # print("  Estimate of discounted cost and {:.{prec}%} confidence interval:".format(1 - D.ALPHA, prec=0),
+    #       cost_mean_CI_text)
+    # print("  Estimate of discounted utility and {:.{prec}%} confidence interval:".format(1 - D.ALPHA, prec=0),
+    #       utility_mean_CI_text)
     print("")
 
 
