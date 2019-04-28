@@ -8,9 +8,10 @@ class HealthStates(Enum):
     INFECTED = 0
     HOSP_TBD = 1
     HOSP_TBM = 2
-    DX_TB = 3
+    DX_TBD = 3
     DEAD = 4
     CLEARED = 5
+    DX_TBM = 6
 
 
 class Diagnostic(Enum):
