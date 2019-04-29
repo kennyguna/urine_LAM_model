@@ -17,102 +17,102 @@ def print_outcomes(sim_outcomes, diagnostic_name):
                                          alpha=D.ALPHA,
                                          deci=2)
 
-    # mean and confidence interval of event rates
-    time_INFECTEDtoHOSP_TBD_text = sim_outcomes.statTimeINFECTEDtoHOSP_TBD\
-        .get_formatted_mean_and_interval(interval_type='c',
-                                         alpha=D.ALPHA,
-                                         deci=2)
-
-    time_INFECTEDtoHOSP_TBM_text = sim_outcomes.statTimeINFECTEDtoHOSP_TBM\
-        .get_formatted_mean_and_interval(interval_type='c',
-                                         alpha=D.ALPHA,
-                                         deci=2)
-
-    time_INFECTEDtoDX_TBD_text = sim_outcomes.statTimeINFECTEDtoDX_TBD\
-        .get_formatted_mean_and_interval(interval_type='c',
-                                         alpha=D.ALPHA,
-                                         deci=2)
-
-    time_INFECTEDtoCLEARED_text = sim_outcomes.statTimeINFECTEDtoCLEARED\
-        .get_formatted_mean_and_interval(interval_type='c',
-                                         alpha=D.ALPHA,
-                                         deci=2)
-
-    time_CLEAREDtoDEAD_text = sim_outcomes.statTimeCLEAREDtoDEAD\
-        .get_formatted_mean_and_interval(interval_type='c',
-                                         alpha=D.ALPHA,
-                                         deci=2)
-
-    time_HOSP_TBDtoDEAD_text = sim_outcomes.statTimeHOSP_TBDtoDEAD\
-        .get_formatted_mean_and_interval(interval_type='c',
-                                         alpha=D.ALPHA,
-                                         deci=2)
-
-    time_HOSP_TBDtoDX_TBD_text = sim_outcomes.statTimeHOSP_TBDtoDX_TBD\
-        .get_formatted_mean_and_interval(interval_type='c',
-                                         alpha=D.ALPHA,
-                                         deci=2)
-
-    time_HOSP_TBMtoDEAD_text = sim_outcomes.statTimeHOSP_TBMtoDEAD\
-        .get_formatted_mean_and_interval(interval_type='c',
-                                         alpha=D.ALPHA,
-                                         deci=2)
-
-    time_HOSP_TBMtoDX_TBM_text = sim_outcomes.statTimeHOSP_TBMtoDX_TBM\
-        .get_formatted_mean_and_interval(interval_type='c',
-                                         alpha=D.ALPHA,
-                                         deci=2)
-
-    time_DX_TBDtoDEAD_text = sim_outcomes.statTimeDX_TBDtoDEAD\
-        .get_formatted_mean_and_interval(interval_type='c',
-                                         alpha=D.ALPHA,
-                                         deci=2)
-
-    time_DX_TBDtoCLEARED_text = sim_outcomes.statTimeDX_TBDtoCLEARED\
-        .get_formatted_mean_and_interval(interval_type='c',
-                                         alpha=D.ALPHA,
-                                         deci=2)
-
-    time_DX_TBMtoDEAD_text = sim_outcomes.statTimeDX_TBMtoDEAD\
-        .get_formatted_mean_and_interval(interval_type='c',
-                                         alpha=D.ALPHA,
-                                         deci=2)
-
-    time_DX_TBMtoCLEARED_text = sim_outcomes.statTimeDX_TBMtoCLEARED\
-        .get_formatted_mean_and_interval(interval_type='c',
-                                         alpha=D.ALPHA,
-                                         deci=2)
-
-    # time spent in each state
-    time_INFECTED_text = sim_outcomes.statTimesINFECTED\
-        .get_formatted_mean_and_interval(interval_type='c',
-                                         alpha=D.ALPHA,
-                                         deci=2)
-
-    time_HOSP_TBM_text = sim_outcomes.statTimesHOSP_TBM\
-        .get_formatted_mean_and_interval(interval_type='c',
-                                         alpha=D.ALPHA,
-                                         deci=2)
-
-    time_HOSP_TBD_text = sim_outcomes.statTimesHOSP_TBD\
-        .get_formatted_mean_and_interval(interval_type='c',
-                                         alpha=D.ALPHA,
-                                         deci=2)
-
-    time_DX_TBD_text = sim_outcomes.statTimesDX_TBD\
-        .get_formatted_mean_and_interval(interval_type='c',
-                                         alpha=D.ALPHA,
-                                         deci=2)
-
-    time_DX_TBM_text = sim_outcomes.statTimesDX_TBM\
-        .get_formatted_mean_and_interval(interval_type='c',
-                                         alpha=D.ALPHA,
-                                         deci=2)
-
-    time_CLEARED_text = sim_outcomes.statTimesCLEARED\
-        .get_formatted_mean_and_interval(interval_type='c',
-                                         alpha=D.ALPHA,
-                                         deci=2)
+    # # mean and confidence interval of event rates
+    # time_INFECTEDtoHOSP_TBD_text = sim_outcomes.statTimeINFECTEDtoHOSP_TBD\
+    #     .get_formatted_mean_and_interval(interval_type='c',
+    #                                      alpha=D.ALPHA,
+    #                                      deci=2)
+    #
+    # time_INFECTEDtoHOSP_TBM_text = sim_outcomes.statTimeINFECTEDtoHOSP_TBM\
+    #     .get_formatted_mean_and_interval(interval_type='c',
+    #                                      alpha=D.ALPHA,
+    #                                      deci=2)
+    #
+    # time_INFECTEDtoDX_TBD_text = sim_outcomes.statTimeINFECTEDtoDX_TBD\
+    #     .get_formatted_mean_and_interval(interval_type='c',
+    #                                      alpha=D.ALPHA,
+    #                                      deci=2)
+    #
+    # time_INFECTEDtoCLEARED_text = sim_outcomes.statTimeINFECTEDtoCLEARED\
+    #     .get_formatted_mean_and_interval(interval_type='c',
+    #                                      alpha=D.ALPHA,
+    #                                      deci=2)
+    #
+    # time_CLEAREDtoDEAD_text = sim_outcomes.statTimeCLEAREDtoDEAD\
+    #     .get_formatted_mean_and_interval(interval_type='c',
+    #                                      alpha=D.ALPHA,
+    #                                      deci=2)
+    #
+    # time_HOSP_TBDtoDEAD_text = sim_outcomes.statTimeHOSP_TBDtoDEAD\
+    #     .get_formatted_mean_and_interval(interval_type='c',
+    #                                      alpha=D.ALPHA,
+    #                                      deci=2)
+    #
+    # time_HOSP_TBDtoDX_TBD_text = sim_outcomes.statTimeHOSP_TBDtoDX_TBD\
+    #     .get_formatted_mean_and_interval(interval_type='c',
+    #                                      alpha=D.ALPHA,
+    #                                      deci=2)
+    #
+    # time_HOSP_TBMtoDEAD_text = sim_outcomes.statTimeHOSP_TBMtoDEAD\
+    #     .get_formatted_mean_and_interval(interval_type='c',
+    #                                      alpha=D.ALPHA,
+    #                                      deci=2)
+    #
+    # time_HOSP_TBMtoDX_TBM_text = sim_outcomes.statTimeHOSP_TBMtoDX_TBM\
+    #     .get_formatted_mean_and_interval(interval_type='c',
+    #                                      alpha=D.ALPHA,
+    #                                      deci=2)
+    #
+    # time_DX_TBDtoDEAD_text = sim_outcomes.statTimeDX_TBDtoDEAD\
+    #     .get_formatted_mean_and_interval(interval_type='c',
+    #                                      alpha=D.ALPHA,
+    #                                      deci=2)
+    #
+    # time_DX_TBDtoCLEARED_text = sim_outcomes.statTimeDX_TBDtoCLEARED\
+    #     .get_formatted_mean_and_interval(interval_type='c',
+    #                                      alpha=D.ALPHA,
+    #                                      deci=2)
+    #
+    # time_DX_TBMtoDEAD_text = sim_outcomes.statTimeDX_TBMtoDEAD\
+    #     .get_formatted_mean_and_interval(interval_type='c',
+    #                                      alpha=D.ALPHA,
+    #                                      deci=2)
+    #
+    # time_DX_TBMtoCLEARED_text = sim_outcomes.statTimeDX_TBMtoCLEARED\
+    #     .get_formatted_mean_and_interval(interval_type='c',
+    #                                      alpha=D.ALPHA,
+    #                                      deci=2)
+    #
+    # # time spent in each state
+    # time_INFECTED_text = sim_outcomes.statTimesINFECTED\
+    #     .get_formatted_mean_and_interval(interval_type='c',
+    #                                      alpha=D.ALPHA,
+    #                                      deci=2)
+    #
+    # time_HOSP_TBM_text = sim_outcomes.statTimesHOSP_TBM\
+    #     .get_formatted_mean_and_interval(interval_type='c',
+    #                                      alpha=D.ALPHA,
+    #                                      deci=2)
+    #
+    # time_HOSP_TBD_text = sim_outcomes.statTimesHOSP_TBD\
+    #     .get_formatted_mean_and_interval(interval_type='c',
+    #                                      alpha=D.ALPHA,
+    #                                      deci=2)
+    #
+    # time_DX_TBD_text = sim_outcomes.statTimesDX_TBD\
+    #     .get_formatted_mean_and_interval(interval_type='c',
+    #                                      alpha=D.ALPHA,
+    #                                      deci=2)
+    #
+    # time_DX_TBM_text = sim_outcomes.statTimesDX_TBM\
+    #     .get_formatted_mean_and_interval(interval_type='c',
+    #                                      alpha=D.ALPHA,
+    #                                      deci=2)
+    #
+    # time_CLEARED_text = sim_outcomes.statTimesCLEARED\
+    #     .get_formatted_mean_and_interval(interval_type='c',
+    #                                      alpha=D.ALPHA,
+    #                                      deci=2)
 
     # mean and confidence interval text of discounted total cost
     cost_mean_CI_text = sim_outcomes.statCost\
@@ -153,45 +153,45 @@ def print_outcomes(sim_outcomes, diagnostic_name):
     print("  Estimate of mean survival time and {:.{prec}%} confidence interval:".format(1 - D.ALPHA, prec=0),
           survival_mean_CI_text)
 
-    print("  Estimate of mean time in state INFECTED and {:.{prec}%} confidence interval:".format(1 - D.ALPHA, prec=0),
-          time_INFECTED_text)
-    print("  Estimate of mean time in state HOSP_TBD and {:.{prec}%} confidence interval:".format(1 - D.ALPHA, prec=0),
-          time_HOSP_TBD_text)
-    print("  Estimate of mean time in state HOSP_TBM and {:.{prec}%} confidence interval:".format(1 - D.ALPHA, prec=0),
-          time_HOSP_TBM_text)
-    print("  Estimate of mean time in state DX_TBD and {:.{prec}%} confidence interval:".format(1 - D.ALPHA, prec=0),
-          time_DX_TBD_text)
-    print("  Estimate of mean time in state DX_TBM and {:.{prec}%} confidence interval:".format(1 - D.ALPHA, prec=0),
-          time_DX_TBM_text)
-    print("  Estimate of mean time in state CLEARED and {:.{prec}%} confidence interval:".format(1 - D.ALPHA, prec=0),
-          time_CLEARED_text)
-
-    print("  Estimate of mean time from INFECTED to HOSP_TBD and {:.{prec}%} confidence interval:".format(1 - D.ALPHA, prec=0),
-          time_INFECTEDtoHOSP_TBD_text)
-    print("  Estimate of mean time from INFECTED to HOSP_TBM and {:.{prec}%} confidence interval:".format(1 - D.ALPHA, prec=0),
-          time_INFECTEDtoHOSP_TBM_text)
-    print("  Estimate of mean time from INFECTED to DX_TBD and {:.{prec}%} confidence interval:".format(1 - D.ALPHA, prec=0),
-          time_INFECTEDtoDX_TBD_text)
-    print("  Estimate of mean time from INFECTED to CLEARED and {:.{prec}%} confidence interval:".format(1 - D.ALPHA, prec=0),
-          time_INFECTEDtoCLEARED_text)
-    print("  Estimate of mean time from HOSP_TBD to DX_TBD and {:.{prec}%} confidence interval:".format(1 - D.ALPHA, prec=0),
-          time_HOSP_TBDtoDX_TBD_text)
-    print("  Estimate of mean time from HOSP_TBD to DEAD and {:.{prec}%} confidence interval:".format(1 - D.ALPHA, prec=0),
-          time_HOSP_TBDtoDEAD_text)
-    print("  Estimate of mean time from HOSP_TBM to DX_TBM and {:.{prec}%} confidence interval:".format(1 - D.ALPHA, prec=0),
-          time_HOSP_TBMtoDX_TBM_text)
-    print("  Estimate of mean time from HOSP_TBM to DEAD and {:.{prec}%} confidence interval:".format(1 - D.ALPHA, prec=0),
-          time_HOSP_TBMtoDEAD_text)
-    print("  Estimate of mean time from DX_TBD to CLEARED and {:.{prec}%} confidence interval:".format(1 - D.ALPHA, prec=0),
-          time_DX_TBDtoCLEARED_text)
-    print("  Estimate of mean time from DX_TBD to DEAD and {:.{prec}%} confidence interval:".format(1 - D.ALPHA, prec=0),
-          time_DX_TBDtoDEAD_text)
-    print("  Estimate of mean time from DX_TBM to CLEARED and {:.{prec}%} confidence interval:".format(1 - D.ALPHA, prec=0),
-          time_DX_TBMtoCLEARED_text)
-    print("  Estimate of mean time from DX_TBM to DEAD and {:.{prec}%} confidence interval:".format(1 - D.ALPHA, prec=0),
-          time_DX_TBMtoDEAD_text)
-    print("  Estimate of mean time from CLEARED to DEAD and {:.{prec}%} confidence interval:".format(1 - D.ALPHA, prec=0),
-          time_CLEAREDtoDEAD_text)
+    # print("  Estimate of mean time in state INFECTED and {:.{prec}%} confidence interval:".format(1 - D.ALPHA, prec=0),
+    #       time_INFECTED_text)
+    # print("  Estimate of mean time in state HOSP_TBD and {:.{prec}%} confidence interval:".format(1 - D.ALPHA, prec=0),
+    #       time_HOSP_TBD_text)
+    # print("  Estimate of mean time in state HOSP_TBM and {:.{prec}%} confidence interval:".format(1 - D.ALPHA, prec=0),
+    #       time_HOSP_TBM_text)
+    # print("  Estimate of mean time in state DX_TBD and {:.{prec}%} confidence interval:".format(1 - D.ALPHA, prec=0),
+    #       time_DX_TBD_text)
+    # print("  Estimate of mean time in state DX_TBM and {:.{prec}%} confidence interval:".format(1 - D.ALPHA, prec=0),
+    #       time_DX_TBM_text)
+    # print("  Estimate of mean time in state CLEARED and {:.{prec}%} confidence interval:".format(1 - D.ALPHA, prec=0),
+    #       time_CLEARED_text)
+    #
+    # print("  Estimate of mean time from INFECTED to HOSP_TBD and {:.{prec}%} confidence interval:".format(1 - D.ALPHA, prec=0),
+    #       time_INFECTEDtoHOSP_TBD_text)
+    # print("  Estimate of mean time from INFECTED to HOSP_TBM and {:.{prec}%} confidence interval:".format(1 - D.ALPHA, prec=0),
+    #       time_INFECTEDtoHOSP_TBM_text)
+    # print("  Estimate of mean time from INFECTED to DX_TBD and {:.{prec}%} confidence interval:".format(1 - D.ALPHA, prec=0),
+    #       time_INFECTEDtoDX_TBD_text)
+    # print("  Estimate of mean time from INFECTED to CLEARED and {:.{prec}%} confidence interval:".format(1 - D.ALPHA, prec=0),
+    #       time_INFECTEDtoCLEARED_text)
+    # print("  Estimate of mean time from HOSP_TBD to DX_TBD and {:.{prec}%} confidence interval:".format(1 - D.ALPHA, prec=0),
+    #       time_HOSP_TBDtoDX_TBD_text)
+    # print("  Estimate of mean time from HOSP_TBD to DEAD and {:.{prec}%} confidence interval:".format(1 - D.ALPHA, prec=0),
+    #       time_HOSP_TBDtoDEAD_text)
+    # print("  Estimate of mean time from HOSP_TBM to DX_TBM and {:.{prec}%} confidence interval:".format(1 - D.ALPHA, prec=0),
+    #       time_HOSP_TBMtoDX_TBM_text)
+    # print("  Estimate of mean time from HOSP_TBM to DEAD and {:.{prec}%} confidence interval:".format(1 - D.ALPHA, prec=0),
+    #       time_HOSP_TBMtoDEAD_text)
+    # print("  Estimate of mean time from DX_TBD to CLEARED and {:.{prec}%} confidence interval:".format(1 - D.ALPHA, prec=0),
+    #       time_DX_TBDtoCLEARED_text)
+    # print("  Estimate of mean time from DX_TBD to DEAD and {:.{prec}%} confidence interval:".format(1 - D.ALPHA, prec=0),
+    #       time_DX_TBDtoDEAD_text)
+    # print("  Estimate of mean time from DX_TBM to CLEARED and {:.{prec}%} confidence interval:".format(1 - D.ALPHA, prec=0),
+    #       time_DX_TBMtoCLEARED_text)
+    # print("  Estimate of mean time from DX_TBM to DEAD and {:.{prec}%} confidence interval:".format(1 - D.ALPHA, prec=0),
+    #       time_DX_TBMtoDEAD_text)
+    # print("  Estimate of mean time from CLEARED to DEAD and {:.{prec}%} confidence interval:".format(1 - D.ALPHA, prec=0),
+    #       time_CLEAREDtoDEAD_text)
 
     print("  Estimate of discounted cost and {:.{prec}%} confidence interval:".format(1 - D.ALPHA, prec=0),
           cost_mean_CI_text)
@@ -218,145 +218,145 @@ def print_histograms(sim_outcomes, diagnostic_name):
         y_label='Count',
         bin_width=1)
 
-    Figs.graph_histogram(
-        data=sim_outcomes.timesINFECTEDtoHOSP_TBD,
-        title=f'Histogram of INFECTED to HOSP_TBD {diagnostic_name}',
-        x_label='Time (Week)',
-        y_label='Count',
-        bin_width=1)
+    # Figs.graph_histogram(
+    #     data=sim_outcomes.timesINFECTEDtoHOSP_TBD,
+    #     title=f'Histogram of INFECTED to HOSP_TBD {diagnostic_name}',
+    #     x_label='Time (Week)',
+    #     y_label='Count',
+    #     bin_width=1)
+    #
+    # Figs.graph_histogram(
+    #     data=sim_outcomes.timesINFECTEDtoHOSP_TBM,
+    #     title=f'Histogram of INFECTED to HOSP_TBM {diagnostic_name}',
+    #     x_label='Time (Week)',
+    #     y_label='Count',
+    #     bin_width=1)
+    #
+    # Figs.graph_histogram(
+    #     data=sim_outcomes.timesINFECTEDtoDX_TBD,
+    #     title=f'Histogram of INFECTED to DX_TBD {diagnostic_name}',
+    #     x_label='Time (Week)',
+    #     y_label='Count',
+    #     bin_width=1)
+    #
+    # Figs.graph_histogram(
+    #     data=sim_outcomes.timesINFECTEDtoCLEARED,
+    #     title=f'Histogram of INFECTED to CLEARED {diagnostic_name}',
+    #     x_label='Time (Week)',
+    #     y_label='Count',
+    #     bin_width=1)
+    #
+    # Figs.graph_histogram(
+    #     data=sim_outcomes.timesCLEAREDtoDEAD,
+    #     title=f'Histogram of CLEARED to DEAD {diagnostic_name}',
+    #     x_label='Time (Week)',
+    #     y_label='Count',
+    #     bin_width=1)
+    #
+    # Figs.graph_histogram(
+    #     data=sim_outcomes.timesHOSP_TBDtoDEAD,
+    #     title=f'Histogram of HOSP_TBD to DEAD {diagnostic_name}',
+    #     x_label='Time (Week)',
+    #     y_label='Count',
+    #     bin_width=1)
+    #
+    # Figs.graph_histogram(
+    #     data=sim_outcomes.timesHOSP_TBDtoDX_TBD,
+    #     title=f'Histogram of HOSP_TBD to DX_TBD {diagnostic_name}',
+    #     x_label='Survival Time (Week)',
+    #     y_label='Count',
+    #     bin_width=1)
+    #
+    # Figs.graph_histogram(
+    #     data=sim_outcomes.timesHOSP_TBMtoDEAD,
+    #     title=f'Histogram of HOSP_TBM to DEAD {diagnostic_name}',
+    #     x_label='Survival Time (Week)',
+    #     y_label='Count',
+    #     bin_width=1)
+    #
+    # Figs.graph_histogram(
+    #     data=sim_outcomes.timesHOSP_TBMtoDX_TBM,
+    #     title=f'Histogram of HOSP_TBM to DX_TBM {diagnostic_name}',
+    #     x_label='Time (Week)',
+    #     y_label='Count',
+    #     bin_width=1)
+    #
+    # Figs.graph_histogram(
+    #     data=sim_outcomes.timesDX_TBDtoDEAD,
+    #     title=f'Histogram of DX_TBD to DEAD {diagnostic_name}',
+    #     x_label='Time (Week)',
+    #     y_label='Count',
+    #     bin_width=1)
+    #
+    # Figs.graph_histogram(
+    #     data=sim_outcomes.timesDX_TBDtoCLEARED,
+    #     title=f'Histogram of DX_TBD to CLEARED {diagnostic_name}',
+    #     x_label='Time (Week)',
+    #     y_label='Count',
+    #     bin_width=1)
+    #
+    # Figs.graph_histogram(
+    #     data=sim_outcomes.timesDX_TBMtoDEAD,
+    #     title=f'Histogram of DX_TBM to DEAD {diagnostic_name}',
+    #     x_label='Time (Week)',
+    #     y_label='Count',
+    #     bin_width=1)
+    #
+    # Figs.graph_histogram(
+    #     data=sim_outcomes.timesDX_TBMtoCLEARED,
+    #     title=f'Histogram of DX_TBM to CLEARED {diagnostic_name}',
+    #     x_label='Time (Week)',
+    #     y_label='Count',
+    #     bin_width=1)
+    #
+    # Figs.graph_histogram(
+    #     data=sim_outcomes.timesINFECTED,
+    #     title=f'Histogram of INFECTED {diagnostic_name}',
+    #     x_label='Time (Week)',
+    #     y_label='Count',
+    #     bin_width=1)
+    #
+    # Figs.graph_histogram(
+    #     data=sim_outcomes.timesHOSP_TBM,
+    #     title=f'Histogram of HOSP_TBM {diagnostic_name}',
+    #     x_label='Time (Week)',
+    #     y_label='Count',
+    #     bin_width=1)
+    #
+    # Figs.graph_histogram(
+    #     data=sim_outcomes.timesHOSP_TBD,
+    #     title=f'Histogram of HOSP_TBD {diagnostic_name}',
+    #     x_label='Time (Week)',
+    #     y_label='Count',
+    #     bin_width=1)
+    #
+    # Figs.graph_histogram(
+    #     data=sim_outcomes.timesDX_TBD,
+    #     title=f'Histogram of DX_TBD {diagnostic_name}',
+    #     x_label='Time (Week)',
+    #     y_label='Count',
+    #     bin_width=1)
+    #
+    # Figs.graph_histogram(
+    #     data=sim_outcomes.timesDX_TBM,
+    #     title=f'Histogram of DX_TBM {diagnostic_name}',
+    #     x_label='Time (Week)',
+    #     y_label='Count',
+    #     bin_width=1)
+    #
+    # Figs.graph_histogram(
+    #     data=sim_outcomes.timesCLEARED,
+    #     title=f'Histogram of CLEARED {diagnostic_name}',
+    #     x_label='Time (Week)',
+    #     y_label='Count',
+    #     bin_width=1)
 
-    Figs.graph_histogram(
-        data=sim_outcomes.timesINFECTEDtoHOSP_TBM,
-        title=f'Histogram of INFECTED to HOSP_TBM {diagnostic_name}',
-        x_label='Time (Week)',
-        y_label='Count',
-        bin_width=1)
-
-    Figs.graph_histogram(
-        data=sim_outcomes.timesINFECTEDtoDX_TBD,
-        title=f'Histogram of INFECTED to DX_TBD {diagnostic_name}',
-        x_label='Time (Week)',
-        y_label='Count',
-        bin_width=1)
-
-    Figs.graph_histogram(
-        data=sim_outcomes.timesINFECTEDtoCLEARED,
-        title=f'Histogram of INFECTED to CLEARED {diagnostic_name}',
-        x_label='Time (Week)',
-        y_label='Count',
-        bin_width=1)
-
-    Figs.graph_histogram(
-        data=sim_outcomes.timesCLEAREDtoDEAD,
-        title=f'Histogram of CLEARED to DEAD {diagnostic_name}',
-        x_label='Time (Week)',
-        y_label='Count',
-        bin_width=1)
-
-    Figs.graph_histogram(
-        data=sim_outcomes.timesHOSP_TBDtoDEAD,
-        title=f'Histogram of HOSP_TBD to DEAD {diagnostic_name}',
-        x_label='Time (Week)',
-        y_label='Count',
-        bin_width=1)
-
-    Figs.graph_histogram(
-        data=sim_outcomes.timesHOSP_TBDtoDX_TBD,
-        title=f'Histogram of HOSP_TBD to DX_TBD {diagnostic_name}',
-        x_label='Survival Time (Week)',
-        y_label='Count',
-        bin_width=1)
-
-    Figs.graph_histogram(
-        data=sim_outcomes.timesHOSP_TBMtoDEAD,
-        title=f'Histogram of HOSP_TBM to DEAD {diagnostic_name}',
-        x_label='Survival Time (Week)',
-        y_label='Count',
-        bin_width=1)
-
-    Figs.graph_histogram(
-        data=sim_outcomes.timesHOSP_TBMtoDX_TBM,
-        title=f'Histogram of HOSP_TBM to DX_TBM {diagnostic_name}',
-        x_label='Time (Week)',
-        y_label='Count',
-        bin_width=1)
-
-    Figs.graph_histogram(
-        data=sim_outcomes.timesDX_TBDtoDEAD,
-        title=f'Histogram of DX_TBD to DEAD {diagnostic_name}',
-        x_label='Time (Week)',
-        y_label='Count',
-        bin_width=1)
-
-    Figs.graph_histogram(
-        data=sim_outcomes.timesDX_TBDtoCLEARED,
-        title=f'Histogram of DX_TBD to CLEARED {diagnostic_name}',
-        x_label='Time (Week)',
-        y_label='Count',
-        bin_width=1)
-
-    Figs.graph_histogram(
-        data=sim_outcomes.timesDX_TBMtoDEAD,
-        title=f'Histogram of DX_TBM to DEAD {diagnostic_name}',
-        x_label='Time (Week)',
-        y_label='Count',
-        bin_width=1)
-
-    Figs.graph_histogram(
-        data=sim_outcomes.timesDX_TBMtoCLEARED,
-        title=f'Histogram of DX_TBM to CLEARED {diagnostic_name}',
-        x_label='Time (Week)',
-        y_label='Count',
-        bin_width=1)
-
-    Figs.graph_histogram(
-        data=sim_outcomes.timesINFECTED,
-        title=f'Histogram of INFECTED {diagnostic_name}',
-        x_label='Time (Week)',
-        y_label='Count',
-        bin_width=1)
-
-    Figs.graph_histogram(
-        data=sim_outcomes.timesHOSP_TBM,
-        title=f'Histogram of HOSP_TBM {diagnostic_name}',
-        x_label='Time (Week)',
-        y_label='Count',
-        bin_width=1)
-
-    Figs.graph_histogram(
-        data=sim_outcomes.timesHOSP_TBD,
-        title=f'Histogram of HOSP_TBD {diagnostic_name}',
-        x_label='Time (Week)',
-        y_label='Count',
-        bin_width=1)
-
-    Figs.graph_histogram(
-        data=sim_outcomes.timesDX_TBD,
-        title=f'Histogram of DX_TBD {diagnostic_name}',
-        x_label='Time (Week)',
-        y_label='Count',
-        bin_width=1)
-
-    Figs.graph_histogram(
-        data=sim_outcomes.timesDX_TBM,
-        title=f'Histogram of DX_TBM {diagnostic_name}',
-        x_label='Time (Week)',
-        y_label='Count',
-        bin_width=1)
-
-    Figs.graph_histogram(
-        data=sim_outcomes.timesCLEARED,
-        title=f'Histogram of CLEARED {diagnostic_name}',
-        x_label='Time (Week)',
-        y_label='Count',
-        bin_width=1)
-
-    Figs.graph_histogram(
-        data=sim_outcomes.costs,
-        title=f'Histogram of Cost {diagnostic_name}',
-        x_label='Cost (Dollars)',
-        y_label='Count',
-        bin_width=1)
+    # Figs.graph_histogram(
+    #     data=sim_outcomes.costs,
+    #     title=f'Histogram of Cost {diagnostic_name}',
+    #     x_label='Cost (Dollars)',
+    #     y_label='Count',
+    #     bin_width=1)
 
     Figs.graph_histogram(
         data=sim_outcomes.costsPresenting,

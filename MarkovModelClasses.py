@@ -87,28 +87,30 @@ class PatientStateMonitor:
         self.ifCLEARED = False
         self.ifDEAD = False
 
+        # use to get rid of those individuals who went from infected to cleared without presenting to healthcare
+        self.ifINFECTEDtoCLEARED = False
+
         # time until each event
         # infected
-        self.timeINFECTEDtoHOSP_TBD = None
-        self.timeINFECTEDtoHOSP_TBM = None
-        self.timeINFECTEDtoDX_TBD = None
-        self.timeINFECTEDtoCLEARED = None
+        # self.timeINFECTEDtoHOSP_TBD = None
+        # self.timeINFECTEDtoHOSP_TBM = None
+        # self.timeINFECTEDtoDX_TBD = None
+        # self.timeINFECTEDtoCLEARED = None
         # cleared
-        self.timeCLEAREDtoDEAD = None
-        # hosp TBD
-        self.timeHOSP_TBDtoDEAD = None
-        self.timeHOSP_TBDtoDX_TBD = None
-        # hosp TBM
-        self.timeHOSP_TBMtoDEAD = None
-        self.timeHOSP_TBMtoDX_TBM = None
-        # dx tbd
-        self.timeDX_TBDtoDEAD = None
-        self.timeDX_TBDtoCLEARED = None
-        # dx tbm
-        self.timeDX_TBMtoDEAD = None
-        self.timeDX_TBMtoCLEARED = None
+        # self.timeCLEAREDtoDEAD = None
+        # # hosp TBD
+        # self.timeHOSP_TBDtoDEAD = None
+        # self.timeHOSP_TBDtoDX_TBD = None
+        # # hosp TBM
+        # self.timeHOSP_TBMtoDEAD = None
+        # self.timeHOSP_TBMtoDX_TBM = None
+        # # dx tbd
+        # self.timeDX_TBDtoDEAD = None
+        # self.timeDX_TBDtoCLEARED = None
+        # # dx tbm
+        # self.timeDX_TBMtoDEAD = None
+        # self.timeDX_TBMtoCLEARED = None
 
-        # NEED TO DO THIS SECTION
         # patient's cost and utility monitor
         self.costUtilityMonitor = PatientCostUtilityMonitor(parameters=parameters)
 
@@ -146,49 +148,49 @@ class PatientStateMonitor:
                 self.mortality2Years = True
             if time < 260:
                 self.mortality5Years = True
-            if current_state == P.HealthStates.HOSP_TBM:
-                self.timeHOSP_TBMtoDEAD = dt
-            if current_state == P.HealthStates.DX_TBD:
-                self.timeDX_TBDtoDEAD = dt
-            if current_state == P.HealthStates.DX_TBM:
-                self.timeDX_TBMtoDEAD = dt
-            if current_state == P.HealthStates.CLEARED:
-                self.timeCLEAREDtoDEAD = dt
-            if current_state == P.HealthStates.HOSP_TBD:
-                self.timeHOSP_TBDtoDEAD = dt
+            # if current_state == P.HealthStates.HOSP_TBM:
+            #     self.timeHOSP_TBMtoDEAD = dt
+            # if current_state == P.HealthStates.DX_TBD:
+            #     self.timeDX_TBDtoDEAD = dt
+            # if current_state == P.HealthStates.DX_TBM:
+            #     self.timeDX_TBMtoDEAD = dt
+            # if current_state == P.HealthStates.CLEARED:
+            #     self.timeCLEAREDtoDEAD = dt
+            # if current_state == P.HealthStates.HOSP_TBD:
+            #     self.timeHOSP_TBDtoDEAD = dt
 
         # update if patient develops TBD
         if new_state == P.HealthStates.HOSP_TBD:
             self.ifHOSP_TBD = True
-            self.timeINFECTEDtoHOSP_TBD = time
+            # self.timeINFECTEDtoHOSP_TBD = time
 
         # update if patient develops TBM
         if new_state == P.HealthStates.HOSP_TBM:
             self.ifHOSP_TBM = True
-            self.timeINFECTEDtoHOSP_TBM = time
+            # self.timeINFECTEDtoHOSP_TBM = time
 
         if new_state == P.HealthStates.CLEARED:
             self.ifCLEARED = True
             if current_state == P.HealthStates.INFECTED:
-                self.timeINFECTEDtoCLEARED = dt
-            if current_state == P.HealthStates.DX_TBM:
-                self.timeDX_TBMtoCLEARED = dt
-            if current_state == P.HealthStates.DX_TBD:
-                self.timeDX_TBDtoCLEARED = dt
+                # self.timeINFECTEDtoCLEARED = dt
+                self.ifINFECTEDtoCLEARED = True
+            # if current_state == P.HealthStates.DX_TBM:
+            #     self.timeDX_TBMtoCLEARED = dt
+            # if current_state == P.HealthStates.DX_TBD:
+            #     self.timeDX_TBDtoCLEARED = dt
 
         if new_state == P.HealthStates.DX_TBD:
             self.ifDX_TBD = True
-            if current_state == P.HealthStates.INFECTED:
-                self.timeINFECTEDtoDX_TBD = dt
-            if current_state == P.HealthStates.HOSP_TBD:
-                self.timeHOSP_TBDtoDX_TBD = dt
+            # if current_state == P.HealthStates.INFECTED:
+            #     self.timeINFECTEDtoDX_TBD = dt
+            # if current_state == P.HealthStates.HOSP_TBD:
+            #     self.timeHOSP_TBDtoDX_TBD = dt
 
         if new_state == P.HealthStates.DX_TBM:
             self.ifDX_TBM = True
-            if current_state == P.HealthStates.HOSP_TBM:
-                self.timeHOSP_TBMtoDX_TBM = dt
+            # if current_state == P.HealthStates.HOSP_TBM:
+            #     self.timeHOSP_TBMtoDX_TBM = dt
 
-        # NEED TO WORK ON THIS SECTION
         # update cost and utility
         self.costUtilityMonitor.update(time=time,
                                        current_state=self.currentState,
@@ -220,10 +222,7 @@ class PatientCostUtilityMonitor:
 
         # cost and utility (per unit of time) during the period since the last recording until now
         cost = self.params.weeklyStateCosts[current_state.value]
-
-        if (current_state is P.HealthStates.INFECTED and next_state is P.HealthStates.DX_TBD) or \
-                (current_state != P.HealthStates.INFECTED):
-            single_cost = self.params.singleCosts[current_state.value]
+        single_cost = self.params.singleCosts[current_state.value]
 
         # utility = self.params.weeklyStateUtilities[current_state.value]
 
@@ -236,12 +235,10 @@ class PatientCostUtilityMonitor:
         #                                                 discount_period=(self.tLastRecorded, time))
 
         # discounted cost (single payment)
-        if (current_state is P.HealthStates.INFECTED and next_state is P.HealthStates.DX_TBD) or \
-                (current_state != P.HealthStates.INFECTED):
-            discounted_cost += Econ.pv_single_payment(payment=single_cost,
-                                                      discount_rate=self.params.discountRate,
-                                                      discount_period=time,
-                                                      discount_continuously=True)
+        discounted_cost += Econ.pv_single_payment(payment=single_cost,
+                                                  discount_rate=self.params.discountRate,
+                                                  discount_period=time,
+                                                  discount_continuously=True)
 
         # update total discounted cost and utility
         self.totalDiscountedCost += discounted_cost
@@ -303,27 +300,27 @@ class CohortOutcomes:
         self.nCLEARED = 0
         self.nDEAD = 0
 
-        self.timesINFECTEDtoHOSP_TBD = []
-        self.timesINFECTEDtoHOSP_TBM = []
-        self.timesINFECTEDtoDX_TBD = []
-        self.timesINFECTEDtoCLEARED = []
-        self.timesCLEAREDtoDEAD = []
-        self.timesHOSP_TBDtoDEAD = []
-        self.timesHOSP_TBDtoDX_TBD = []
-        self.timesHOSP_TBMtoDEAD = []
-        self.timesHOSP_TBMtoDX_TBM = []
-        self.timesDX_TBDtoDEAD = []
-        self.timesDX_TBDtoCLEARED = []
-        self.timesDX_TBMtoDEAD = []
-        self.timesDX_TBMtoCLEARED = []
-
-        self.timesINFECTED = []
-        self.timesHOSP_TBM = []
-        self.timesHOSP_TBD = []
-        self.timesDX_TBD = []
-        self.timesDX_TBM = []
-        self.timesCLEARED = []
-        self.timesDEAD = []
+        # self.timesINFECTEDtoHOSP_TBD = []
+        # self.timesINFECTEDtoHOSP_TBM = []
+        # self.timesINFECTEDtoDX_TBD = []
+        # self.timesINFECTEDtoCLEARED = []
+        # self.timesCLEAREDtoDEAD = []
+        # self.timesHOSP_TBDtoDEAD = []
+        # self.timesHOSP_TBDtoDX_TBD = []
+        # self.timesHOSP_TBMtoDEAD = []
+        # self.timesHOSP_TBMtoDX_TBM = []
+        # self.timesDX_TBDtoDEAD = []
+        # self.timesDX_TBDtoCLEARED = []
+        # self.timesDX_TBMtoDEAD = []
+        # self.timesDX_TBMtoCLEARED = []
+        #
+        # self.timesINFECTED = []
+        # self.timesHOSP_TBM = []
+        # self.timesHOSP_TBD = []
+        # self.timesDX_TBD = []
+        # self.timesDX_TBM = []
+        # self.timesCLEARED = []
+        # self.timesDEAD = []
 
         self.costs = []                 # patients' discounted costs
         self.costsPresenting = []
@@ -336,26 +333,27 @@ class CohortOutcomes:
         self.nMortality5Years = 0
         self.nMortality2Years = 0
 
-        self.statTimeINFECTEDtoHOSP_TBD = None
-        self.statTimeINFECTEDtoHOSP_TBM = None
-        self.statTimeINFECTEDtoDX_TBD = None
-        self.statTimeINFECTEDtoCLEARED = None
-        self.statTimeCLEAREDtoDEAD = None
-        self.statTimeHOSP_TBDtoDEAD = None
-        self.statTimeHOSP_TBDtoDX_TBD = None
-        self.statTimeHOSP_TBMtoDEAD = None
-        self.statTimeHOSP_TBMtoDX_TBM = None
-        self.statTimeDX_TBDtoDEAD = None
-        self.statTimeDX_TBDtoCLEARED = None
-        self.statTimeDX_TBMtoDEAD = None
-        self.statTimeDX_TBMtoCLEARED = None
+        # self.statTimeINFECTEDtoHOSP_TBD = None
+        # self.statTimeINFECTEDtoHOSP_TBM = None
+        # self.statTimeINFECTEDtoDX_TBD = None
+        # self.statTimeINFECTEDtoCLEARED = None
+        # self.statTimeCLEAREDtoDEAD = None
+        # self.statTimeHOSP_TBDtoDEAD = None
+        # self.statTimeHOSP_TBDtoDX_TBD = None
+        # self.statTimeHOSP_TBMtoDEAD = None
+        # self.statTimeHOSP_TBMtoDX_TBM = None
+        # self.statTimeDX_TBDtoDEAD = None
+        # self.statTimeDX_TBDtoCLEARED = None
+        # self.statTimeDX_TBMtoDEAD = None
+        # self.statTimeDX_TBMtoCLEARED = None
+        #
+        # self.statTimesINFECTED = None
+        # self.statTimesHOSP_TBM = None
+        # self.statTimesHOSP_TBD = None
+        # self.statTimesDX_TBD = None
+        # self.statTimesDX_TBM = None
+        # self.statTimesCLEARED = None
 
-        self.statTimesINFECTED = None
-        self.statTimesHOSP_TBM = None
-        self.statTimesHOSP_TBD = None
-        self.statTimesDX_TBD = None
-        self.statTimesDX_TBM = None
-        self.statTimesCLEARED = None
         self.statCost = None            # summary statistics for discounted cost
         self.statCostPresenting = None
         # self.statUtility = None         # summary statistics for discounted utility
@@ -370,65 +368,73 @@ class CohortOutcomes:
             if not (patient.stateMonitor.survivalTime is None):
                 self.survivalTimes.append(patient.stateMonitor.survivalTime)
 
-            # record time patient spends in each transition:
-            if patient.stateMonitor.ifHOSP_TBM:
-                self.timesINFECTEDtoHOSP_TBM.append(patient.stateMonitor.timeINFECTEDtoHOSP_TBM)
-                self.nHOSP_TBM += 1
+            # USE THIS SECTION IF NO INFORMATION ABOUT TIMES; USE THE BELOW SECTION IF WANT INFO ON TIMES
             if patient.stateMonitor.ifHOSP_TBD:
-                self.timesINFECTEDtoHOSP_TBD.append(patient.stateMonitor.timeINFECTEDtoHOSP_TBD)
                 self.nHOSP_TBD += 1
+            if patient.stateMonitor.ifHOSP_TBM:
+                self.nHOSP_TBM += 1
+            if patient.stateMonitor.ifDX_TBD:
+                self.nDX_TBD += 1
             if patient.stateMonitor.ifDX_TBM:
-                self.timesHOSP_TBMtoDX_TBM.append(patient.stateMonitor.timeHOSP_TBMtoDX_TBM)
                 self.nDX_TBM += 1
-            if patient.stateMonitor.ifDX_TBD and patient.stateMonitor.ifHOSP_TBD:
-                self.timesHOSP_TBDtoDX_TBD.append(patient.stateMonitor.timeHOSP_TBDtoDX_TBD)
-                self.nDX_TBD += 1
-            if patient.stateMonitor.ifDX_TBD and (patient.stateMonitor.ifHOSP_TBD is False):  # and \
-                    # (patient.stateMonitor.ifHOSP_TBD is False) and (patient.stateMonitor.ifDEAD is False):
-                self.timesINFECTEDtoDX_TBD.append(patient.stateMonitor.timeINFECTEDtoDX_TBD)
-                self.nDX_TBD += 1
-            if patient.stateMonitor.ifCLEARED and patient.stateMonitor.ifDX_TBD:
-                self.timesDX_TBDtoCLEARED.append(patient.stateMonitor.timeDX_TBDtoCLEARED)
+            if patient.stateMonitor.ifCLEARED:
                 self.nCLEARED += 1
-            if patient.stateMonitor.ifCLEARED and patient.stateMonitor.ifDX_TBM:
-                self.timesDX_TBMtoCLEARED.append(patient.stateMonitor.timeDX_TBMtoCLEARED)
-                self.nCLEARED += 1
-            if patient.stateMonitor.ifCLEARED and (patient.stateMonitor.ifDX_TBD is False) and \
-                    (patient.stateMonitor.ifDX_TBM is False):
-                self.timesINFECTEDtoCLEARED.append(patient.stateMonitor.timeINFECTEDtoCLEARED)
-                self.nCLEARED += 1
-            # times from HOSP_TBM to DEAD
-            if patient.stateMonitor.ifDEAD and patient.stateMonitor.ifHOSP_TBM and \
-                    (patient.stateMonitor.ifCLEARED is False) and (patient.stateMonitor.ifHOSP_TBD is False) and \
-                    (patient.stateMonitor.ifDX_TBD is False) and (patient.stateMonitor.ifDX_TBM is False):
-                self.timesHOSP_TBMtoDEAD.append(patient.stateMonitor.timeHOSP_TBMtoDEAD)
-                self.nDEAD += 1
-            # times from HOSP_TBD to DEAD
-            if patient.stateMonitor.ifDEAD and patient.stateMonitor.ifHOSP_TBD and \
-                    (patient.stateMonitor.ifCLEARED is False) and (patient.stateMonitor.ifHOSP_TBM is False) and \
-                    (patient.stateMonitor.ifDX_TBM is False) and (patient.stateMonitor.ifDX_TBD is False):
-                self.timesHOSP_TBDtoDEAD.append(patient.stateMonitor.timeHOSP_TBDtoDEAD)
-                self.nDEAD += 1
-            # get rid of cleared and the two hosps
-            if patient.stateMonitor.ifDEAD and patient.stateMonitor.ifDX_TBM and \
-                    (patient.stateMonitor.ifCLEARED is False) and (patient.stateMonitor.timeHOSP_TBMtoDEAD is None) and\
-                    (patient.stateMonitor.ifHOSP_TBD is False) and (patient.stateMonitor.ifDX_TBD is False):
-                self.timesDX_TBMtoDEAD.append(patient.stateMonitor.timeDX_TBMtoDEAD)
-                self.nDEAD += 1
-            if patient.stateMonitor.ifDEAD and patient.stateMonitor.ifDX_TBD and \
-                    (patient.stateMonitor.ifCLEARED is False) and (patient.stateMonitor.timeHOSP_TBDtoDEAD is None) and\
-                    (patient.stateMonitor.ifHOSP_TBM is False) and (patient.stateMonitor.ifDX_TBM is False):
-                self.timesDX_TBDtoDEAD.append(patient.stateMonitor.timeDX_TBDtoDEAD)
-                self.nDEAD += 1
-            if patient.stateMonitor.ifDEAD and patient.stateMonitor.ifCLEARED and \
-                    (patient.stateMonitor.timeHOSP_TBMtoDEAD is None) and (patient.stateMonitor.timeHOSP_TBDtoDEAD is None) and \
-                    (patient.stateMonitor.timeDX_TBMtoDEAD is None) and (patient.stateMonitor.timeDX_TBDtoDEAD is None):
-                self.timesCLEAREDtoDEAD.append(patient.stateMonitor.timeCLEAREDtoDEAD)
+            if patient.stateMonitor.ifDEAD:
                 self.nDEAD += 1
 
-            # if patient.stateMonitor.ifDEAD and patient.stateMonitor.ifCLEARED and \
-            #         (patient.stateMonitor.ifDX_TBD is False) and (patient.stateMonitor.ifHOSP_TBD is False) and \
+            # USE THIS SECTION IF WANT INFORMATION ABOUT TIME FOR EACH TRANSITION; USE ABOVE IF DON'T WANT
+            # if patient.stateMonitor.ifHOSP_TBM:
+            #     self.timesINFECTEDtoHOSP_TBM.append(patient.stateMonitor.timeINFECTEDtoHOSP_TBM)
+            #     self.nHOSP_TBM += 1
+            # if patient.stateMonitor.ifHOSP_TBD:
+            #     self.timesINFECTEDtoHOSP_TBD.append(patient.stateMonitor.timeINFECTEDtoHOSP_TBD)
+            #     self.nHOSP_TBD += 1
+            # if patient.stateMonitor.ifDX_TBM:
+            #     self.timesHOSP_TBMtoDX_TBM.append(patient.stateMonitor.timeHOSP_TBMtoDX_TBM)
+            #     self.nDX_TBM += 1
+            # if patient.stateMonitor.ifDX_TBD and patient.stateMonitor.ifHOSP_TBD:
+            #     self.timesHOSP_TBDtoDX_TBD.append(patient.stateMonitor.timeHOSP_TBDtoDX_TBD)
+            #     self.nDX_TBD += 1
+            # if patient.stateMonitor.ifDX_TBD and (patient.stateMonitor.ifHOSP_TBD is False):  # and \
+            #         # (patient.stateMonitor.ifHOSP_TBD is False) and (patient.stateMonitor.ifDEAD is False):
+            #     self.timesINFECTEDtoDX_TBD.append(patient.stateMonitor.timeINFECTEDtoDX_TBD)
+            #     self.nDX_TBD += 1
+            # if patient.stateMonitor.ifCLEARED and patient.stateMonitor.ifDX_TBD:
+            #     self.timesDX_TBDtoCLEARED.append(patient.stateMonitor.timeDX_TBDtoCLEARED)
+            #     self.nCLEARED += 1
+            # if patient.stateMonitor.ifCLEARED and patient.stateMonitor.ifDX_TBM:
+            #     self.timesDX_TBMtoCLEARED.append(patient.stateMonitor.timeDX_TBMtoCLEARED)
+            #     self.nCLEARED += 1
+            # if patient.stateMonitor.ifCLEARED and (patient.stateMonitor.ifDX_TBD is False) and \
+            #         (patient.stateMonitor.ifDX_TBM is False):
+            #     self.timesINFECTEDtoCLEARED.append(patient.stateMonitor.timeINFECTEDtoCLEARED)
+            #     self.nCLEARED += 1
+            # # times from HOSP_TBM to DEAD
+            # if patient.stateMonitor.ifDEAD and patient.stateMonitor.ifHOSP_TBM and \
+            #         (patient.stateMonitor.ifCLEARED is False) and (patient.stateMonitor.ifHOSP_TBD is False) and \
+            #         (patient.stateMonitor.ifDX_TBD is False) and (patient.stateMonitor.ifDX_TBM is False):
+            #     self.timesHOSP_TBMtoDEAD.append(patient.stateMonitor.timeHOSP_TBMtoDEAD)
+            #     self.nDEAD += 1
+            # # times from HOSP_TBD to DEAD
+            # if patient.stateMonitor.ifDEAD and patient.stateMonitor.ifHOSP_TBD and \
+            #         (patient.stateMonitor.ifCLEARED is False) and (patient.stateMonitor.ifHOSP_TBM is False) and \
+            #         (patient.stateMonitor.ifDX_TBM is False) and (patient.stateMonitor.ifDX_TBD is False):
+            #     self.timesHOSP_TBDtoDEAD.append(patient.stateMonitor.timeHOSP_TBDtoDEAD)
+            #     self.nDEAD += 1
+            # # get rid of cleared and the two hosps
+            # if patient.stateMonitor.ifDEAD and patient.stateMonitor.ifDX_TBM and \
+            #         (patient.stateMonitor.ifCLEARED is False) and (patient.stateMonitor.timeHOSP_TBMtoDEAD is None) and\
+            #         (patient.stateMonitor.ifHOSP_TBD is False) and (patient.stateMonitor.ifDX_TBD is False):
+            #     self.timesDX_TBMtoDEAD.append(patient.stateMonitor.timeDX_TBMtoDEAD)
+            #     self.nDEAD += 1
+            # if patient.stateMonitor.ifDEAD and patient.stateMonitor.ifDX_TBD and \
+            #         (patient.stateMonitor.ifCLEARED is False) and (patient.stateMonitor.timeHOSP_TBDtoDEAD is None) and\
             #         (patient.stateMonitor.ifHOSP_TBM is False) and (patient.stateMonitor.ifDX_TBM is False):
+            #     self.timesDX_TBDtoDEAD.append(patient.stateMonitor.timeDX_TBDtoDEAD)
+            #     self.nDEAD += 1
+            # if patient.stateMonitor.ifDEAD and patient.stateMonitor.ifCLEARED and \
+            #         (patient.stateMonitor.timeHOSP_TBMtoDEAD is None) and (patient.stateMonitor.timeHOSP_TBDtoDEAD is None) and \
+            #         (patient.stateMonitor.timeDX_TBMtoDEAD is None) and (patient.stateMonitor.timeDX_TBDtoDEAD is None):
             #     self.timesCLEAREDtoDEAD.append(patient.stateMonitor.timeCLEAREDtoDEAD)
             #     self.nDEAD += 1
 
@@ -437,7 +443,7 @@ class CohortOutcomes:
             # self.utilities.append(patient.stateMonitor.costUtilityMonitor.totalDiscountedUtility)
 
             # discounted cost of all the patients who present to healthcare
-            if patient.stateMonitor.timeINFECTEDtoCLEARED is None:
+            if not patient.stateMonitor.ifINFECTEDtoCLEARED:
                 self.costsPresenting.append(patient.stateMonitor.costUtilityMonitor.totalDiscountedCost)
                 if patient.stateMonitor.mortality56Day:
                     self.nMortality56Day += 1
@@ -454,37 +460,37 @@ class CohortOutcomes:
         # Gather Data
         self.nHospitalized = self.nHOSP_TBD + self.nHOSP_TBM
 
-        self.timesINFECTED = self.timesINFECTEDtoCLEARED + self.timesINFECTEDtoDX_TBD + self.timesINFECTEDtoHOSP_TBM + \
-            self.timesINFECTEDtoHOSP_TBD
-        self.timesHOSP_TBD = self.timesHOSP_TBDtoDEAD + self.timesHOSP_TBDtoDX_TBD
-        self.timesHOSP_TBM = self.timesHOSP_TBMtoDEAD + self.timesHOSP_TBMtoDX_TBM
-        self.timesDX_TBM = self.timesDX_TBMtoCLEARED + self.timesDX_TBMtoDEAD
-        self.timesDX_TBD = self.timesDX_TBDtoCLEARED + self.timesDX_TBDtoDEAD
-        self.timesCLEARED = self.timesCLEAREDtoDEAD
+        # self.timesINFECTED = self.timesINFECTEDtoCLEARED + self.timesINFECTEDtoDX_TBD + self.timesINFECTEDtoHOSP_TBM + \
+        #     self.timesINFECTEDtoHOSP_TBD
+        # self.timesHOSP_TBD = self.timesHOSP_TBDtoDEAD + self.timesHOSP_TBDtoDX_TBD
+        # self.timesHOSP_TBM = self.timesHOSP_TBMtoDEAD + self.timesHOSP_TBMtoDX_TBM
+        # self.timesDX_TBM = self.timesDX_TBMtoCLEARED + self.timesDX_TBMtoDEAD
+        # self.timesDX_TBD = self.timesDX_TBDtoCLEARED + self.timesDX_TBDtoDEAD
+        # self.timesCLEARED = self.timesCLEAREDtoDEAD
 
         # Summary Statistics
         self.statSurvivalTime = Stat.SummaryStat('Survival time', self.survivalTimes)
 
-        self.statTimeINFECTEDtoHOSP_TBD = Stat.SummaryStat('Infected to HOSP_TBD', self.timesINFECTEDtoHOSP_TBD)
-        self.statTimeINFECTEDtoHOSP_TBM = Stat.SummaryStat('Infected to HOSP_TBM', self.timesINFECTEDtoHOSP_TBM)
-        self.statTimeINFECTEDtoDX_TBD = Stat.SummaryStat('Infected to DX_TBD', self.timesINFECTEDtoDX_TBD)
-        self.statTimeINFECTEDtoCLEARED = Stat.SummaryStat('Infected to Cleared', self.timesINFECTEDtoCLEARED)
-        self.statTimeCLEAREDtoDEAD = Stat.SummaryStat('Cleared to Dead', self.timesCLEAREDtoDEAD)
-        self.statTimeHOSP_TBDtoDEAD = Stat.SummaryStat('HOSP_TBD to Dead', self.timesHOSP_TBDtoDEAD)
-        self.statTimeHOSP_TBDtoDX_TBD = Stat.SummaryStat('HOSP_TBD to DX_TBD', self.timesHOSP_TBDtoDX_TBD)
-        self.statTimeHOSP_TBMtoDEAD = Stat.SummaryStat('HOSP_TBM to DEAD', self.timesHOSP_TBMtoDEAD)
-        self.statTimeHOSP_TBMtoDX_TBM = Stat.SummaryStat('HOSP_TBM to DX_TBM', self.timesHOSP_TBMtoDX_TBM)
-        self.statTimeDX_TBDtoDEAD = Stat.SummaryStat('DX_TBD to Dead', self.timesDX_TBDtoDEAD)
-        self.statTimeDX_TBDtoCLEARED = Stat.SummaryStat('DX_TBD to Cleared', self.timesDX_TBDtoCLEARED)
-        self.statTimeDX_TBMtoDEAD = Stat.SummaryStat('DX_TBM to Dead', self.timesDX_TBMtoDEAD)
-        self.statTimeDX_TBMtoCLEARED = Stat.SummaryStat('DX_TBM to Cleared', self.timesDX_TBMtoCLEARED)
-
-        self.statTimesINFECTED = Stat.SummaryStat('Infected', self.timesINFECTED)
-        self.statTimesHOSP_TBM = Stat.SummaryStat('HOSP_TBM', self.timesHOSP_TBM)
-        self.statTimesHOSP_TBD = Stat.SummaryStat('HOSP_TBD', self.timesHOSP_TBD)
-        self.statTimesDX_TBD = Stat.SummaryStat('DX_TBD', self.timesDX_TBD)
-        self.statTimesDX_TBM = Stat.SummaryStat('DX_TBM', self.timesDX_TBM)
-        self.statTimesCLEARED = Stat.SummaryStat('Cleared', self.timesCLEARED)
+        # self.statTimeINFECTEDtoHOSP_TBD = Stat.SummaryStat('Infected to HOSP_TBD', self.timesINFECTEDtoHOSP_TBD)
+        # self.statTimeINFECTEDtoHOSP_TBM = Stat.SummaryStat('Infected to HOSP_TBM', self.timesINFECTEDtoHOSP_TBM)
+        # self.statTimeINFECTEDtoDX_TBD = Stat.SummaryStat('Infected to DX_TBD', self.timesINFECTEDtoDX_TBD)
+        # self.statTimeINFECTEDtoCLEARED = Stat.SummaryStat('Infected to Cleared', self.timesINFECTEDtoCLEARED)
+        # self.statTimeCLEAREDtoDEAD = Stat.SummaryStat('Cleared to Dead', self.timesCLEAREDtoDEAD)
+        # self.statTimeHOSP_TBDtoDEAD = Stat.SummaryStat('HOSP_TBD to Dead', self.timesHOSP_TBDtoDEAD)
+        # self.statTimeHOSP_TBDtoDX_TBD = Stat.SummaryStat('HOSP_TBD to DX_TBD', self.timesHOSP_TBDtoDX_TBD)
+        # self.statTimeHOSP_TBMtoDEAD = Stat.SummaryStat('HOSP_TBM to DEAD', self.timesHOSP_TBMtoDEAD)
+        # self.statTimeHOSP_TBMtoDX_TBM = Stat.SummaryStat('HOSP_TBM to DX_TBM', self.timesHOSP_TBMtoDX_TBM)
+        # self.statTimeDX_TBDtoDEAD = Stat.SummaryStat('DX_TBD to Dead', self.timesDX_TBDtoDEAD)
+        # self.statTimeDX_TBDtoCLEARED = Stat.SummaryStat('DX_TBD to Cleared', self.timesDX_TBDtoCLEARED)
+        # self.statTimeDX_TBMtoDEAD = Stat.SummaryStat('DX_TBM to Dead', self.timesDX_TBMtoDEAD)
+        # self.statTimeDX_TBMtoCLEARED = Stat.SummaryStat('DX_TBM to Cleared', self.timesDX_TBMtoCLEARED)
+        #
+        # self.statTimesINFECTED = Stat.SummaryStat('Infected', self.timesINFECTED)
+        # self.statTimesHOSP_TBM = Stat.SummaryStat('HOSP_TBM', self.timesHOSP_TBM)
+        # self.statTimesHOSP_TBD = Stat.SummaryStat('HOSP_TBD', self.timesHOSP_TBD)
+        # self.statTimesDX_TBD = Stat.SummaryStat('DX_TBD', self.timesDX_TBD)
+        # self.statTimesDX_TBM = Stat.SummaryStat('DX_TBM', self.timesDX_TBM)
+        # self.statTimesCLEARED = Stat.SummaryStat('Cleared', self.timesCLEARED)
 
         self.statCost = Stat.SummaryStat('Discounted cost', self.costs)
         self.statCostPresenting = Stat.SummaryStat('Discounted cost (Presenting)', self.costsPresenting)
@@ -498,6 +504,6 @@ class CohortOutcomes:
             increments=[-1]*len(self.survivalTimes)
         )
 
-        print("Number of transitions from DX_TBD to DEAD", len(self.timesDX_TBDtoDEAD))
-        print("Number of transitions from DX_TBM to DEAD", len(self.timesDX_TBMtoDEAD))
+        # print("Number of transitions from DX_TBD to DEAD", len(self.timesDX_TBDtoDEAD))
+        # print("Number of transitions from DX_TBM to DEAD", len(self.timesDX_TBMtoDEAD))
 
