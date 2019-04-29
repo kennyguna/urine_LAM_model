@@ -28,6 +28,7 @@ class Patient:
         while not if_stop:
 
             # find time to next event, and next state
+            # current_state is used to determine dt => if current state is death, then dt = 0
             dt, new_state_index = self.gillespie.get_next_state(
                 current_state_index=self.stateMonitor.currentState.value,
                 rng=self.rng)
@@ -43,9 +44,6 @@ class Patient:
                 self.stateMonitor.costUtilityMonitor.update(time=sim_length,
                                                             current_state=self.stateMonitor.currentState,
                                                             next_state=self.stateMonitor.currentState)
-
-                # CONSIDER WRITING A NEW METHOD TO INCLUDE THE TIME SPENT IN WHATEVER STATE THE
-                # INDIVIDUAL IS AFTER THE END OF THE SIMULATION
 
             else:
                 # advance time to the time of next event
@@ -67,6 +65,19 @@ class PatientStateMonitor:
 
         # Important Outcomes
         self.survivalTime = None                # survival time
+
+        # related to 56 day mortality for calibration
+        self.isPresenting = True
+        self.mortality56Day = False             # 56 day mortality
+        self.timePresent = 0                 # use to determine 56 day (8 week) mortality
+
+        # YLL
+        self.YLL = 0
+
+        # mortality measures
+        self.mortality2Months = False
+        self.mortality2Years = False
+        self.mortality5Years = False
 
         # If patient enters any of these states
         self.ifHOSP_TBM = False
@@ -113,10 +124,28 @@ class PatientStateMonitor:
         # new_state corresponds to the new state (ending at time time)
         """
 
+        if current_state == P.HealthStates.INFECTED and new_state == P.HealthStates.CLEARED:
+            self.isPresenting = False
+
+        if self.isPresenting and self.timePresent < 8 and current_state != P.HealthStates.INFECTED:
+            self.timePresent += dt
+
+        if dt < 8:
+            if new_state == P.HealthStates.DEAD:
+                self.mortality56Day = True
+
         # update survival time
         if new_state == P.HealthStates.DEAD:
             self.survivalTime = time
             self.ifDEAD = True
+            if time < (62.77*52):
+                self.YLL = ((62.77*52)-time)/52
+            if time < 8:
+                self.mortality2Months = True
+            if time < 104:
+                self.mortality2Years = True
+            if time < 260:
+                self.mortality5Years = True
             if current_state == P.HealthStates.HOSP_TBM:
                 self.timeHOSP_TBMtoDEAD = dt
             if current_state == P.HealthStates.DX_TBD:
@@ -167,6 +196,7 @@ class PatientStateMonitor:
 
         # update current health state
         self.currentState = new_state
+
 
 class PatientCostUtilityMonitor:
 
@@ -299,7 +329,12 @@ class CohortOutcomes:
         self.costsPresenting = []
         # self.utilities =[]              # patients' discounted utilities
 
+        self.nMortality56Day = 0
         self.nHospitalized = 0
+        self.totalYLL = 0
+        self.nMortality2Months = 0
+        self.nMortality5Years = 0
+        self.nMortality2Years = 0
 
         self.statTimeINFECTEDtoHOSP_TBD = None
         self.statTimeINFECTEDtoHOSP_TBM = None
@@ -404,6 +439,17 @@ class CohortOutcomes:
             # discounted cost of all the patients who present to healthcare
             if patient.stateMonitor.timeINFECTEDtoCLEARED is None:
                 self.costsPresenting.append(patient.stateMonitor.costUtilityMonitor.totalDiscountedCost)
+                if patient.stateMonitor.mortality56Day:
+                    self.nMortality56Day += 1
+
+            self.totalYLL += patient.stateMonitor.YLL
+
+            if patient.stateMonitor.mortality2Months:
+                self.nMortality2Months += 1
+            if patient.stateMonitor.mortality2Years:
+                self.nMortality2Years += 1
+            if patient.stateMonitor.mortality5Years:
+                self.nMortality5Years += 1
 
         # Gather Data
         self.nHospitalized = self.nHOSP_TBD + self.nHOSP_TBM
@@ -454,3 +500,4 @@ class CohortOutcomes:
 
         print("Number of transitions from DX_TBD to DEAD", len(self.timesDX_TBDtoDEAD))
         print("Number of transitions from DX_TBM to DEAD", len(self.timesDX_TBMtoDEAD))
+

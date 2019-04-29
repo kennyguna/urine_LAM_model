@@ -143,6 +143,13 @@ def print_outcomes(sim_outcomes, diagnostic_name):
     print("  Number of individuals passing through state CLEARED:", sim_outcomes.nCLEARED)
     print("  Number of individuals passing through state DEAD:", sim_outcomes.nDEAD)
 
+    print("  Number of individuals hospitalized:", sim_outcomes.nHospitalized)
+    print("  56-day mortality after presenting:", sim_outcomes.nMortality56Day)
+    print("  Total Years of Life Lost:", sim_outcomes.totalYLL)
+    print("  2-month mortality:", sim_outcomes.nMortality2Months/D.POP_SIZE)
+    print("  2-year mortality:", sim_outcomes.nMortality2Years/D.POP_SIZE)
+    print("  5-year mortality:", sim_outcomes.nMortality5Years/D.POP_SIZE)
+
     print("  Estimate of mean survival time and {:.{prec}%} confidence interval:".format(1 - D.ALPHA, prec=0),
           survival_mean_CI_text)
 
