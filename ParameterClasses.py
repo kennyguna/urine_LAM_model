@@ -32,9 +32,9 @@ class ParametersFixed:
         # single cost at each health state
         # assume that the intervention diagnostic is going to be the original diagnostic + the NSB diagnostic
         if self.diagnostic == Diagnostic.SOC:
-            self.singleDiagnosticCost = Data.SOC_ONE_TIME_COST
+            self.singleCosts = Data.SOC_ONE_TIME_COST
         else:
-            self.singleDiagnosticCost = Data.SOC_ONE_TIME_COST + Data.NSB_ONE_TIME_COST
+            self.singleCosts = Data.NSB_ONE_TIME_COST
 
         # rate matrix
         if self.diagnostic == Diagnostic.SOC:
@@ -43,10 +43,10 @@ class ParametersFixed:
             self.rateMatrix = Data.NSB_RATE_TRANS_MATRIX
 
         # weekly cost at each health state
-        self.weeklyCost = Data.WEEKLY_STATE_COST
+        self.weeklyStateCosts = Data.WEEKLY_STATE_COST
 
         # weekly utility at each health state
-        self.weeklyUtility = Data.WEEKLY_STATE_UTILITY
+        #self.weeklyUtility = Data.WEEKLY_STATE_UTILITY
 
         # discount rate
         self.discountRate = Data.DISCOUNT

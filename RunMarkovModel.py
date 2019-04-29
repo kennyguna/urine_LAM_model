@@ -22,21 +22,30 @@ myCohort.simulate(sim_length=D.SIM_LENGTH)
 # print(myCohort.cohortOutcomes.timesDX_TBDtoDEAD)
 # print(myCohort.cohortOutcomes.timesDX_TBDtoCLEARED)
 
-# plot the sample path (survival curve)
-PathCls.graph_sample_path(
-    sample_path=myCohort.cohortOutcomes.nLivingPatients,
-    title='Survival Curve',
-    x_label='Time-Step (Week)',
-    y_label='Number Survived')
-
-# plot the histogram of survival times
-Fig.graph_histogram(
-    data=myCohort.cohortOutcomes.survivalTimes,
-    title='Histogram of Patient Survival Time',
-    x_label='Survival Time (Week)',
-    y_label='Count',
-    bin_width=1)
-#
 # print the outcomes of this simulated cohort
 Support.print_outcomes(sim_outcomes=myCohort.cohortOutcomes,
                        diagnostic_name=diagnostic)
+
+# histograms of the simulated cohort
+# Support.print_histograms(sim_outcomes=myCohort.cohortOutcomes,
+#                          diagnostic_name=diagnostic)
+
+PathCls.graph_sample_path(
+    sample_path=myCohort.cohortOutcomes.nLivingPatients,
+    title=f'Survival Curve {diagnostic}',
+    x_label='Time-Step (Week)',
+    y_label='Number Survived')
+
+Fig.graph_histogram(
+    data=myCohort.cohortOutcomes.costs,
+    title=f'Histogram of Cost {diagnostic}',
+    x_label='Cost (Dollars)',
+    y_label='Count',
+    bin_width=1)
+
+Fig.graph_histogram(
+    data=myCohort.cohortOutcomes.costsPresenting,
+    title=f'Histogram of Cost for Patients who Present {diagnostic}',
+    x_label='Cost (Dollars)',
+    y_label='Count',
+    bin_width=1)

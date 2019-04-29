@@ -1,7 +1,7 @@
 
 # simulation settings
-POP_SIZE = 10000     # cohort population size
-SIM_LENGTH = 2000*52   # length of simulation (years)
+POP_SIZE = 5000     # cohort population size
+SIM_LENGTH = 100*52   # length of simulation (years)
 ALPHA = 0.05        # significance level for calculating confidence intervals
 DISCOUNT = 0.03     # annual discount rate
 
@@ -35,42 +35,42 @@ SOC_RATE_TRANS_MATRIX = [
 # annual cost of each health state
 WEEKLY_STATE_COST = [
     0,  # INFECTED
-    0,  # HOSP_TBD
-    0,  # HOSP_TBM
-    0,  # DEAD
+    392,  # HOSP_TBD
+    392,  # HOSP_TBM
+    1.75,  # DX_TBD
+    0,   # DEAD
     0,   # CLEARED
-    0
+    1.75    # DX_TBM
 ]
 # NEED TO INPUT HEALTH UTILITY OF EACH HEALTH STATE????
 # annual health utility of each health state
-WEEKLY_STATE_UTILITY = [
-    0,  # INFECTED      # cost of medicines, doctors appointments, etc
-    0,  # HOSP_TBD      # costs associated with hospitalization associated with TBD
-    0,  # HOSP_TBM      # costs associated with hospitalization for TBM
-    0,  # DEAD          # no costs
-    0,   # CLEARED       # no costs
-    0
-]
+# WEEKLY_STATE_UTILITY = [
+#     0,  # INFECTED      # cost of medicines, doctors appointments, etc
+#     0,  # HOSP_TBD      # costs associated with hospitalization associated with TBD
+#     0,  # HOSP_TBM      # costs associated with hospitalization for TBM
+#     0,  # DEAD          # no costs
+#     0,   # CLEARED       # no costs
+#     0
+# ]
 
 # Diagnostic Costs associated with SOC vs. NSB
 # one time costs associated with the diagnosis of TB at the infected, hosp_tbd, hosp_tbm states
 SOC_ONE_TIME_COST = [
-    0,  # INFECTED      # cost of medicines, doctors appointments, etc
-    0,  # HOSP_TBD      # costs associated with hospitalization associated with TBD
-    0,  # HOSP_TBM      # costs associated with hospitalization for TBM
-    0,  # DEAD          # no costs
-    0,   # CLEARED       # no costs
-    0,
+    15,  # INFECTED (charged only when the patient goes from INFECTED to DX)
+    98+15,  # HOSP_TBD
+    98+15,  # HOSP_TBM
+    0,  # DX_TBD
+    0,   # DEAD
+    0,   # CLEARED
+    0    # DX_TBM
 ]
 
 NSB_ONE_TIME_COST = [
-    0,  # INFECTED      # cost of medicines, doctors appointments, etc
-    0,  # HOSP_TBD      # costs associated with hospitalization associated with TBD
-    0,  # HOSP_TBM      # costs associated with hospitalization for TBM
-    0,  # DEAD          # no costs
-    0,   # CLEARED       # no costs
-    0
+    15+3,  # INFECTED (charged only when the patient goes from INFECTED to DX)
+    98 + 15+3,  # HOSP_TBD
+    98 + 15+3,  # HOSP_TBM
+    0,  # DX_TBD
+    0,  # DEAD
+    0,  # CLEARED
+    0  # DX_TBM
 ]
-
-# CONSIDER THE ONE TIME COSTS ASSOCIATED WITH EACH STATE
-# NEED TO FINALIZE THE COSTS

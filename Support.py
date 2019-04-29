@@ -114,13 +114,19 @@ def print_outcomes(sim_outcomes, diagnostic_name):
                                          alpha=D.ALPHA,
                                          deci=2)
 
-    # # mean and confidence interval text of discounted total cost
-    # cost_mean_CI_text = sim_outcomes.statCost\
-    #     .get_formatted_mean_and_interval(interval_type='c',
-    #                                      alpha=D.ALPHA,
-    #                                      deci=0,
-    #                                      form=',')
-    #
+    # mean and confidence interval text of discounted total cost
+    cost_mean_CI_text = sim_outcomes.statCost\
+        .get_formatted_mean_and_interval(interval_type='c',
+                                         alpha=D.ALPHA,
+                                         deci=0,
+                                         form=',')
+
+    costPresenting_mean_CI_text = sim_outcomes.statCostPresenting \
+        .get_formatted_mean_and_interval(interval_type='c',
+                                         alpha=D.ALPHA,
+                                         deci=0,
+                                         form=',')
+
     # # mean and confidence interval text of discounted total utility
     # utility_mean_CI_text = sim_outcomes.statUtility\
     #     .get_formatted_mean_and_interval(interval_type='c',
@@ -129,6 +135,14 @@ def print_outcomes(sim_outcomes, diagnostic_name):
 
     # print outcomes
     print(diagnostic_name)
+
+    print("  Number of individuals passing through state HOSP_TBM:", sim_outcomes.nHOSP_TBM)
+    print("  Number of individuals passing through state HOSP_TBD:", sim_outcomes.nHOSP_TBD)
+    print("  Number of individuals passing through state DX_TBM:", sim_outcomes.nDX_TBM)
+    print("  Number of individuals passing through state DX_TBD:", sim_outcomes.nDX_TBD)
+    print("  Number of individuals passing through state CLEARED:", sim_outcomes.nCLEARED)
+    print("  Number of individuals passing through state DEAD:", sim_outcomes.nDEAD)
+
     print("  Estimate of mean survival time and {:.{prec}%} confidence interval:".format(1 - D.ALPHA, prec=0),
           survival_mean_CI_text)
 
@@ -172,12 +186,177 @@ def print_outcomes(sim_outcomes, diagnostic_name):
     print("  Estimate of mean time from CLEARED to DEAD and {:.{prec}%} confidence interval:".format(1 - D.ALPHA, prec=0),
           time_CLEAREDtoDEAD_text)
 
-    # print("  Estimate of discounted cost and {:.{prec}%} confidence interval:".format(1 - D.ALPHA, prec=0),
-    #       cost_mean_CI_text)
+    print("  Estimate of discounted cost and {:.{prec}%} confidence interval:".format(1 - D.ALPHA, prec=0),
+          cost_mean_CI_text)
+    print("  Estimate of discounted cost among patients presenting and {:.{prec}%} confidence interval:".format(1 - D.ALPHA, prec=0),
+          costPresenting_mean_CI_text)
     # print("  Estimate of discounted utility and {:.{prec}%} confidence interval:".format(1 - D.ALPHA, prec=0),
     #       utility_mean_CI_text)
     print("")
 
+
+def print_histograms(sim_outcomes, diagnostic_name):
+    # plot the sample path (survival curve)
+    PathCls.graph_sample_path(
+        sample_path=sim_outcomes.nLivingPatients,
+        title=f'Survival Curve {diagnostic_name}',
+        x_label='Time-Step (Week)',
+        y_label='Number Survived')
+
+    # plot the histogram of survival times
+    Figs.graph_histogram(
+        data=sim_outcomes.survivalTimes,
+        title=f'Histogram of Patient Survival Time {diagnostic_name}',
+        x_label='Survival Time (Week)',
+        y_label='Count',
+        bin_width=1)
+
+    Figs.graph_histogram(
+        data=sim_outcomes.timesINFECTEDtoHOSP_TBD,
+        title=f'Histogram of INFECTED to HOSP_TBD {diagnostic_name}',
+        x_label='Time (Week)',
+        y_label='Count',
+        bin_width=1)
+
+    Figs.graph_histogram(
+        data=sim_outcomes.timesINFECTEDtoHOSP_TBM,
+        title=f'Histogram of INFECTED to HOSP_TBM {diagnostic_name}',
+        x_label='Time (Week)',
+        y_label='Count',
+        bin_width=1)
+
+    Figs.graph_histogram(
+        data=sim_outcomes.timesINFECTEDtoDX_TBD,
+        title=f'Histogram of INFECTED to DX_TBD {diagnostic_name}',
+        x_label='Time (Week)',
+        y_label='Count',
+        bin_width=1)
+
+    Figs.graph_histogram(
+        data=sim_outcomes.timesINFECTEDtoCLEARED,
+        title=f'Histogram of INFECTED to CLEARED {diagnostic_name}',
+        x_label='Time (Week)',
+        y_label='Count',
+        bin_width=1)
+
+    Figs.graph_histogram(
+        data=sim_outcomes.timesCLEAREDtoDEAD,
+        title=f'Histogram of CLEARED to DEAD {diagnostic_name}',
+        x_label='Time (Week)',
+        y_label='Count',
+        bin_width=1)
+
+    Figs.graph_histogram(
+        data=sim_outcomes.timesHOSP_TBDtoDEAD,
+        title=f'Histogram of HOSP_TBD to DEAD {diagnostic_name}',
+        x_label='Time (Week)',
+        y_label='Count',
+        bin_width=1)
+
+    Figs.graph_histogram(
+        data=sim_outcomes.timesHOSP_TBDtoDX_TBD,
+        title=f'Histogram of HOSP_TBD to DX_TBD {diagnostic_name}',
+        x_label='Survival Time (Week)',
+        y_label='Count',
+        bin_width=1)
+
+    Figs.graph_histogram(
+        data=sim_outcomes.timesHOSP_TBMtoDEAD,
+        title=f'Histogram of HOSP_TBM to DEAD {diagnostic_name}',
+        x_label='Survival Time (Week)',
+        y_label='Count',
+        bin_width=1)
+
+    Figs.graph_histogram(
+        data=sim_outcomes.timesHOSP_TBMtoDX_TBM,
+        title=f'Histogram of HOSP_TBM to DX_TBM {diagnostic_name}',
+        x_label='Time (Week)',
+        y_label='Count',
+        bin_width=1)
+
+    Figs.graph_histogram(
+        data=sim_outcomes.timesDX_TBDtoDEAD,
+        title=f'Histogram of DX_TBD to DEAD {diagnostic_name}',
+        x_label='Time (Week)',
+        y_label='Count',
+        bin_width=1)
+
+    Figs.graph_histogram(
+        data=sim_outcomes.timesDX_TBDtoCLEARED,
+        title=f'Histogram of DX_TBD to CLEARED {diagnostic_name}',
+        x_label='Time (Week)',
+        y_label='Count',
+        bin_width=1)
+
+    Figs.graph_histogram(
+        data=sim_outcomes.timesDX_TBMtoDEAD,
+        title=f'Histogram of DX_TBM to DEAD {diagnostic_name}',
+        x_label='Time (Week)',
+        y_label='Count',
+        bin_width=1)
+
+    Figs.graph_histogram(
+        data=sim_outcomes.timesDX_TBMtoCLEARED,
+        title=f'Histogram of DX_TBM to CLEARED {diagnostic_name}',
+        x_label='Time (Week)',
+        y_label='Count',
+        bin_width=1)
+
+    Figs.graph_histogram(
+        data=sim_outcomes.timesINFECTED,
+        title=f'Histogram of INFECTED {diagnostic_name}',
+        x_label='Time (Week)',
+        y_label='Count',
+        bin_width=1)
+
+    Figs.graph_histogram(
+        data=sim_outcomes.timesHOSP_TBM,
+        title=f'Histogram of HOSP_TBM {diagnostic_name}',
+        x_label='Time (Week)',
+        y_label='Count',
+        bin_width=1)
+
+    Figs.graph_histogram(
+        data=sim_outcomes.timesHOSP_TBD,
+        title=f'Histogram of HOSP_TBD {diagnostic_name}',
+        x_label='Time (Week)',
+        y_label='Count',
+        bin_width=1)
+
+    Figs.graph_histogram(
+        data=sim_outcomes.timesDX_TBD,
+        title=f'Histogram of DX_TBD {diagnostic_name}',
+        x_label='Time (Week)',
+        y_label='Count',
+        bin_width=1)
+
+    Figs.graph_histogram(
+        data=sim_outcomes.timesDX_TBM,
+        title=f'Histogram of DX_TBM {diagnostic_name}',
+        x_label='Time (Week)',
+        y_label='Count',
+        bin_width=1)
+
+    Figs.graph_histogram(
+        data=sim_outcomes.timesCLEARED,
+        title=f'Histogram of CLEARED {diagnostic_name}',
+        x_label='Time (Week)',
+        y_label='Count',
+        bin_width=1)
+
+    Figs.graph_histogram(
+        data=sim_outcomes.costs,
+        title=f'Histogram of Cost {diagnostic_name}',
+        x_label='Cost (Dollars)',
+        y_label='Count',
+        bin_width=1)
+
+    Figs.graph_histogram(
+        data=sim_outcomes.costsPresenting,
+        title=f'Histogram of Cost (Patients Presenting) {diagnostic_name}',
+        x_label='Cost (Dollars)',
+        y_label='Count',
+        bin_width=1)
 
 def plot_survival_curves_and_histograms(sim_outcomes_mono, sim_outcomes_combo):
     """ draws the survival curves and the histograms of time until HIV deaths

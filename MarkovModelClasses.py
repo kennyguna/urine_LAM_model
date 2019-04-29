@@ -40,9 +40,9 @@ class Patient:
             elif dt + t > sim_length:
                 if_stop = True
                 # collect cost and health outcomes
-                # self.stateMonitor.costUtilityMonitor.update(time=sim_length,
-                #                                             current_state=self.stateMonitor.currentState,
-                #                                             next_state=self.stateMonitor.currentState)
+                self.stateMonitor.costUtilityMonitor.update(time=sim_length,
+                                                            current_state=self.stateMonitor.currentState,
+                                                            next_state=self.stateMonitor.currentState)
 
                 # CONSIDER WRITING A NEW METHOD TO INCLUDE THE TIME SPENT IN WHATEVER STATE THE
                 # INDIVIDUAL IS AFTER THE END OF THE SIMULATION
@@ -99,7 +99,7 @@ class PatientStateMonitor:
 
         # NEED TO DO THIS SECTION
         # patient's cost and utility monitor
-        # self.costUtilityMonitor = PatientCostUtilityMonitor(parameters=parameters)
+        self.costUtilityMonitor = PatientCostUtilityMonitor(parameters=parameters)
 
     def update(self, time, dt, current_state, new_state):
         """
@@ -159,54 +159,67 @@ class PatientStateMonitor:
             if current_state == P.HealthStates.HOSP_TBM:
                 self.timeHOSP_TBMtoDX_TBM = dt
 
+        # NEED TO WORK ON THIS SECTION
+        # update cost and utility
+        self.costUtilityMonitor.update(time=time,
+                                       current_state=self.currentState,
+                                       next_state=new_state)
+
         # update current health state
         self.currentState = new_state
 
-        # NEED TO WORK ON THIS SECTION
-        # update cost and utility
-        # self.costUtilityMonitor.update(time=time,
-        #                               current_state=self.currentState,
-        #                               next_state=new_state)
+class PatientCostUtilityMonitor:
 
+    def __init__(self, parameters):
 
-# class PatientCostUtilityMonitor:
-#
-#     def __init__(self, parameters):
-#
-#         self.tLastRecorded = 0  # time when the last cost and outcomes got recorded
-#
-#         # model parameters for this patient
-#         self.params = parameters
-#
-#         # total cost and utility
-#         self.totalDiscountedCost = 0
-#         self.totalDiscountedUtility = 0
-#
-#     def update(self, time, current_state, next_state):
-#         """ updates the discounted total cost and health utility
-#         :param time: simulation time
-#         :param current_state: current health state
-#         :param next_state: next health state
-#         """
-#
-#         # cost and utility (per unit of time) during the period since the last recording until now
-#         cost = self.params.annualStateCosts[current_state.value] + self.params.annualTreatmentCost
-#         utility = self.params.annualStateUtilities[current_state.value]
-#
-#         # discounted cost and utility (continuously compounded)
-#         discounted_cost = Econ.pv_continuous_payment(payment=cost,
-#                                                      discount_rate=self.params.discountRate,
-#                                                      discount_period=(self.tLastRecorded, time))
-#         discounted_utility = Econ.pv_continuous_payment(payment=utility,
-#                                                         discount_rate=self.params.discountRate,
-#                                                         discount_period=(self.tLastRecorded, time))
-#
-#         # update total discounted cost and utility
-#         self.totalDiscountedCost += discounted_cost
-#         self.totalDiscountedUtility += discounted_utility
-#
-#         # update the time since last recording to the current time
-#         self.tLastRecorded = time
+        self.tLastRecorded = 0  # time when the last cost and outcomes got recorded
+
+        # model parameters for this patient
+        self.params = parameters
+
+        # total cost and utility
+        self.totalDiscountedCost = 0
+        self.totalDiscountedUtility = 0
+
+    def update(self, time, current_state, next_state):
+        """ updates the discounted total cost and health utility
+        :param time: simulation time
+        :param current_state: current health state
+        :param next_state: next health state
+        """
+
+        # cost and utility (per unit of time) during the period since the last recording until now
+        cost = self.params.weeklyStateCosts[current_state.value]
+
+        if (current_state is P.HealthStates.INFECTED and next_state is P.HealthStates.DX_TBD) or \
+                (current_state != P.HealthStates.INFECTED):
+            single_cost = self.params.singleCosts[current_state.value]
+
+        # utility = self.params.weeklyStateUtilities[current_state.value]
+
+        # discounted cost and utility (continuously compounded)
+        discounted_cost = Econ.pv_continuous_payment(payment=cost,
+                                                     discount_rate=self.params.discountRate,
+                                                     discount_period=(self.tLastRecorded, time))
+        # discounted_utility = Econ.pv_continuous_payment(payment=utility,
+        #                                                 discount_rate=self.params.discountRate,
+        #                                                 discount_period=(self.tLastRecorded, time))
+
+        # discounted cost (single payment)
+        if (current_state is P.HealthStates.INFECTED and next_state is P.HealthStates.DX_TBD) or \
+                (current_state != P.HealthStates.INFECTED):
+            discounted_cost += Econ.pv_single_payment(payment=single_cost,
+                                                      discount_rate=self.params.discountRate,
+                                                      discount_period=time,
+                                                      discount_continuously=True)
+
+        # update total discounted cost and utility
+        self.totalDiscountedCost += discounted_cost
+        # self.totalDiscountedUtility += discounted_utility
+
+        # update the time since last recording to the current time
+        self.tLastRecorded = time
+
 
 class Cohort:
     def __init__(self, id, pop_size, parameters):
@@ -282,7 +295,8 @@ class CohortOutcomes:
         self.timesCLEARED = []
         self.timesDEAD = []
 
-        # self.costs = []                 # patients' discounted costs
+        self.costs = []                 # patients' discounted costs
+        self.costsPresenting = []
         # self.utilities =[]              # patients' discounted utilities
 
         self.nHospitalized = 0
@@ -307,7 +321,8 @@ class CohortOutcomes:
         self.statTimesDX_TBD = None
         self.statTimesDX_TBM = None
         self.statTimesCLEARED = None
-        # self.statCost = None            # summary statistics for discounted cost
+        self.statCost = None            # summary statistics for discounted cost
+        self.statCostPresenting = None
         # self.statUtility = None         # summary statistics for discounted utility
 
     def extract_outcomes(self, simulated_patients):
@@ -383,8 +398,12 @@ class CohortOutcomes:
             #     self.nDEAD += 1
 
             # discounted cost and discounted utility
-            # self.costs.append(patient.stateMonitor.costUtilityMonitor.totalDiscountedCost)
+            self.costs.append(patient.stateMonitor.costUtilityMonitor.totalDiscountedCost)
             # self.utilities.append(patient.stateMonitor.costUtilityMonitor.totalDiscountedUtility)
+
+            # discounted cost of all the patients who present to healthcare
+            if patient.stateMonitor.timeINFECTEDtoCLEARED is None:
+                self.costsPresenting.append(patient.stateMonitor.costUtilityMonitor.totalDiscountedCost)
 
         # Gather Data
         self.nHospitalized = self.nHOSP_TBD + self.nHOSP_TBM
@@ -421,7 +440,8 @@ class CohortOutcomes:
         self.statTimesDX_TBM = Stat.SummaryStat('DX_TBM', self.timesDX_TBM)
         self.statTimesCLEARED = Stat.SummaryStat('Cleared', self.timesCLEARED)
 
-        # self.statCost = Stat.SummaryStat('Discounted cost', self.costs)
+        self.statCost = Stat.SummaryStat('Discounted cost', self.costs)
+        self.statCostPresenting = Stat.SummaryStat('Discounted cost (Presenting)', self.costsPresenting)
         # self.statUtility = Stat.SummaryStat('Discounted utility', self.utilities)
 
         # survival curve
