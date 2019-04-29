@@ -75,6 +75,7 @@ class PatientStateMonitor:
         self.YLL = 0
 
         # mortality measures
+        self.mortality1Year = False
         self.mortality2Months = False
         self.mortality2Years = False
         self.mortality5Years = False
@@ -140,10 +141,12 @@ class PatientStateMonitor:
         if new_state == P.HealthStates.DEAD:
             self.survivalTime = time
             self.ifDEAD = True
-            if time < (62.77*52):
-                self.YLL = ((62.77*52)-time)/52
+            # if time < (62.77*52):
+            #     self.YLL = ((62.77*52)-time)/52
             if time < 8:
                 self.mortality2Months = True
+            if time < 52:
+                self.mortality1Year = True
             if time < 104:
                 self.mortality2Years = True
             if time < 260:
@@ -329,6 +332,7 @@ class CohortOutcomes:
         self.nMortality56Day = 0
         self.nHospitalized = 0
         self.totalYLL = 0
+        self.nMortality1Year = 0
         self.nMortality2Months = 0
         self.nMortality5Years = 0
         self.nMortality2Years = 0
@@ -448,7 +452,9 @@ class CohortOutcomes:
                 if patient.stateMonitor.mortality56Day:
                     self.nMortality56Day += 1
 
-            self.totalYLL += patient.stateMonitor.YLL
+            # total YLL due to TB infection
+            if not patient.stateMonitor.ifCLEARED:
+                self.totalYLL += 62.77-(patient.stateMonitor.survivalTime/52)
 
             if patient.stateMonitor.mortality2Months:
                 self.nMortality2Months += 1
@@ -456,6 +462,8 @@ class CohortOutcomes:
                 self.nMortality2Years += 1
             if patient.stateMonitor.mortality5Years:
                 self.nMortality5Years += 1
+            if patient.stateMonitor.mortality1Year:
+                self.nMortality1Year += 1
 
         # Gather Data
         self.nHospitalized = self.nHOSP_TBD + self.nHOSP_TBM

@@ -1,7 +1,8 @@
 
 # simulation settings
+N_COHORTS = 20  # number of cohorts
 POP_SIZE = 5000     # cohort population size
-SIM_LENGTH = 100*52   # length of simulation (years)
+SIM_LENGTH = 10*52   # length of simulation (years)
 ALPHA = 0.05        # significance level for calculating confidence intervals
 DISCOUNT = 0.03     # annual discount rate
 
@@ -34,7 +35,8 @@ P_DX_SOC = 0.29                     # (alpha) diagnostic yield of investigations
 P_DX_NSB = 0.52                     # (.4-.9) (alpha) diagnostic yield of investigations (NSB)
 
 # assumptions that death in the hospital is the same for both states
-P_DEATH_IN_HOSP = 0.436         # (0.3668-0.506) (beta) probability of death in the hospital (relationship w/ alpha)
+P_DEATH_IN_HOSP = 0.436         # (0.368-0.506) (beta) probability of death in the hospital (relationship w/ alpha)
+                                # from Jenkins; probability of dying within 1 year of diagnosis
 
 P_INFECTED_CLEARED = 0.5
 P_INFECTED_TBM = 0.15       # (0.1-0.2)
