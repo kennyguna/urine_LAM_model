@@ -56,3 +56,7 @@ Support.print_histograms(sim_outcomes=myCohort_NSB.cohortOutcomes,
 #     x_label='Cost (Dollars)',
 #     y_label='Count',
 #     bin_width=1)
+
+# report the CEA results
+Support.report_CEA_CBA(sim_outcomes_SOC=myCohort.cohortOutcomes,
+                       sim_outcomes_NSB=myCohort_NSB.cohortOutcomes)

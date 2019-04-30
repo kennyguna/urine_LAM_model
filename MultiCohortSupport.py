@@ -6,7 +6,7 @@ import SimPy.EconEvalClasses as Econ
 import matplotlib.pyplot as plt
 
 
-def print_outcomes(multi_cohort_outcomes, therapy_name):
+def print_outcomes(multi_cohort_outcomes, diagnostic):
     """ prints the outcomes of a simulated cohort
     :param multi_cohort_outcomes: outcomes of a simulated multi-cohort
     :param therapy_name: the name of the selected therapy
@@ -17,11 +17,53 @@ def print_outcomes(multi_cohort_outcomes, therapy_name):
                                          alpha=D.ALPHA,
                                          deci=2)
 
-    # mean and prediction interval text of time to AIDS
-    time_to_HIV_death_PI_text = multi_cohort_outcomes.statMeanTimeToAIDS\
+    mortality56Day_mean_PI_text = multi_cohort_outcomes.statMortality56Day\
         .get_formatted_mean_and_interval(interval_type='p',
                                          alpha=D.ALPHA,
-                                         deci=2)
+                                         deci=3,
+                                         form=',')
+
+    mortality2Month_mean_PI_text = multi_cohort_outcomes.statMortality2Month\
+        .get_formatted_mean_and_interval(interval_type='p',
+                                         alpha=D.ALPHA,
+                                         deci=3,
+                                         form=',')
+
+    mortality1Year_mean_PI_text = multi_cohort_outcomes.statMortality1Year\
+        .get_formatted_mean_and_interval(interval_type='p',
+                                         alpha=D.ALPHA,
+                                         deci=3,
+                                         form=',')
+
+    mortality2Year_mean_PI_text = multi_cohort_outcomes.statMortality2Year\
+        .get_formatted_mean_and_interval(interval_type='p',
+                                         alpha=D.ALPHA,
+                                         deci=3,
+                                         form=',')
+
+    mortality5Year_mean_PI_text = multi_cohort_outcomes.statMortality5Year\
+        .get_formatted_mean_and_interval(interval_type='p',
+                                         alpha=D.ALPHA,
+                                         deci=3,
+                                         form=',')
+
+    nTBM_mean_PI_text = multi_cohort_outcomes.statNTBM\
+        .get_formatted_mean_and_interval(interval_type='p',
+                                         alpha=D.ALPHA,
+                                         deci=0,
+                                         form=',')
+
+    nHospitalized_mean_PI_text = multi_cohort_outcomes.statNHospitalized\
+        .get_formatted_mean_and_interval(interval_type='p',
+                                         alpha=D.ALPHA,
+                                         deci=0,
+                                         form=',')
+
+    TotalYLL_mean_PI_text = multi_cohort_outcomes.statTotalYLL\
+        .get_formatted_mean_and_interval(interval_type='p',
+                                         alpha=D.ALPHA,
+                                         deci=0,
+                                         form=',')
 
     # mean and prediction interval text of discounted total cost
     cost_mean_PI_text = multi_cohort_outcomes.statMeanCost\
@@ -30,22 +72,37 @@ def print_outcomes(multi_cohort_outcomes, therapy_name):
                                          deci=0,
                                          form=',')
 
-    # mean and prediction interval text of discounted total QALY
-    utility_mean_PI_text = multi_cohort_outcomes.statMeanQALY\
+    # mean and prediction interval text of discounted total cost
+    costPresenting_mean_PI_text = multi_cohort_outcomes.statMeanCostPresenting\
         .get_formatted_mean_and_interval(interval_type='p',
                                          alpha=D.ALPHA,
-                                         deci=2)
-
+                                         deci=0,
+                                         form=',')
     # print outcomes
-    print(therapy_name)
+    print(diagnostic)
     print("  Estimate of mean survival time and {:.{prec}%} uncertainty interval:".format(1 - D.ALPHA, prec=0),
           survival_mean_PI_text)
-    print("  Estimate of mean time to AIDS and {:.{prec}%} uncertainty interval:".format(1 - D.ALPHA, prec=0),
-          time_to_HIV_death_PI_text)
+
+    print("  Estimate of 56-day mortality and {:.{prec}%} uncertainty interval:".format(1 - D.ALPHA, prec=0),
+          mortality56Day_mean_PI_text)
+    print("  Estimate of 2-month mortality and {:.{prec}%} uncertainty interval:".format(1 - D.ALPHA, prec=0),
+          mortality2Month_mean_PI_text)
+    print("  Estimate of 1-year mortality and {:.{prec}%} uncertainty interval:".format(1 - D.ALPHA, prec=0),
+          mortality1Year_mean_PI_text)
+    print("  Estimate of 2-year mortality and {:.{prec}%} uncertainty interval:".format(1 - D.ALPHA, prec=0),
+          mortality2Year_mean_PI_text)
+    print("  Estimate of 5-year mortality and {:.{prec}%} uncertainty interval:".format(1 - D.ALPHA, prec=0),
+          mortality5Year_mean_PI_text)
+    print("  Estimate of number of cases of TB meningitis and {:.{prec}%} uncertainty interval:".format(1 - D.ALPHA, prec=0),
+          nTBM_mean_PI_text)
+    print("  Estimate of number of hospitalizations and {:.{prec}%} uncertainty interval:".format(1 - D.ALPHA, prec=0),
+          nHospitalized_mean_PI_text)
+    print("  Estimate of total Years of Life Lost and {:.{prec}%} uncertainty interval:".format(1 - D.ALPHA, prec=0),
+          TotalYLL_mean_PI_text)
     print("  Estimate of mean discounted cost and {:.{prec}%} uncertainty interval:".format(1 - D.ALPHA, prec=0),
           cost_mean_PI_text)
-    print("  Estimate of mean discounted utility and {:.{prec}%} uncertainty interval:".format(1 - D.ALPHA, prec=0),
-          utility_mean_PI_text)
+    print("  Estimate of mean discounted cost (Patients Presenting) and {:.{prec}%} uncertainty interval:".format(1 - D.ALPHA, prec=0),
+          costPresenting_mean_PI_text)
     print("")
 
 
@@ -92,7 +149,7 @@ def plot_survival_curves_and_histograms(multi_cohort_outcomes_mono, multi_cohort
     )
 
 
-def print_comparative_outcomes(multi_cohort_outcomes_mono, multi_cohort_outcomes_combo):
+def print_comparative_outcomes(multi_cohort_outcomes_SOC, multi_cohort_outcomes_NSB):
     """ prints average increase in survival time, discounted cost, and discounted utility
     under combination therapy compared to mono therapy
     :param multi_cohort_outcomes_mono: outcomes of a multi-cohort simulated under mono therapy
@@ -102,8 +159,8 @@ def print_comparative_outcomes(multi_cohort_outcomes_mono, multi_cohort_outcomes
     # increase in mean survival time under combination therapy with respect to mono therapy
     increase_mean_survival_time = Stat.DifferenceStatPaired(
         name='Increase in mean survival time',
-        x=multi_cohort_outcomes_combo.meanSurvivalTimes,
-        y_ref=multi_cohort_outcomes_mono.meanSurvivalTimes)
+        x=multi_cohort_outcomes_NSB.meanSurvivalTimes,
+        y_ref=multi_cohort_outcomes_SOC.meanSurvivalTimes)
 
     # estimate and PI
     estimate_PI = increase_mean_survival_time.get_formatted_mean_and_interval(interval_type='p',
@@ -113,11 +170,95 @@ def print_comparative_outcomes(multi_cohort_outcomes_mono, multi_cohort_outcomes
           .format(1 - D.ALPHA, prec=0),
           estimate_PI)
 
+    # increase in mean number of hospitalizations
+    increase_mean_nHosp = Stat.DifferenceStatPaired(
+        name='Increase in mean number of kids hospitalized',
+        x=multi_cohort_outcomes_NSB.nHospitalized,
+        y_ref=multi_cohort_outcomes_SOC.nHospitalized)
+
+    # estimate and PI
+    estimate_PI = increase_mean_nHosp.get_formatted_mean_and_interval(interval_type='p',
+                                                                              alpha=D.ALPHA,
+                                                                              deci=2)
+    print("Increase in mean number of hospitalizations and {:.{prec}%} uncertainty interval:"
+          .format(1 - D.ALPHA, prec=0),
+          estimate_PI)
+
+    # increase in mean number of YLLs
+    increase_mean_YLLs = Stat.DifferenceStatPaired(
+        name='Increase in mean number of Years of Life Lost',
+        x=multi_cohort_outcomes_NSB.totalYLL,
+        y_ref=multi_cohort_outcomes_SOC.totalYLL)
+
+    # estimate and PI
+    estimate_PI = increase_mean_YLLs.get_formatted_mean_and_interval(interval_type='p',
+                                                                              alpha=D.ALPHA,
+                                                                              deci=2)
+    print("Increase in mean number of Years of Life Lost and {:.{prec}%} uncertainty interval:"
+          .format(1 - D.ALPHA, prec=0),
+          estimate_PI)
+
+    # increase in mean number of patients w/ TBM
+    increase_mean_TBM = Stat.DifferenceStatPaired(
+        name='Increase in mean number of cases of TB meningitis',
+        x=multi_cohort_outcomes_NSB.nTBM,
+        y_ref=multi_cohort_outcomes_SOC.nTBM)
+
+    # estimate and PI
+    estimate_PI = increase_mean_TBM.get_formatted_mean_and_interval(interval_type='p',
+                                                                              alpha=D.ALPHA,
+                                                                              deci=2)
+    print("Increase in mean number of cases of TB meningitis and {:.{prec}%} uncertainty interval:"
+          .format(1 - D.ALPHA, prec=0),
+          estimate_PI)
+
+    # increase in mean 2-month mortality
+    increase_mean_mortality2Month = Stat.DifferenceStatPaired(
+        name='Increase in mean 2-month mortality',
+        x=multi_cohort_outcomes_NSB.mortality2Month,
+        y_ref=multi_cohort_outcomes_SOC.mortality2Month)
+
+    # estimate and PI
+    estimate_PI = increase_mean_mortality2Month.get_formatted_mean_and_interval(interval_type='p',
+                                                                              alpha=D.ALPHA,
+                                                                              deci=2)
+    print("Increase in mean 2-month mortality and {:.{prec}%} uncertainty interval:"
+          .format(1 - D.ALPHA, prec=0),
+          estimate_PI)
+
+    # increase in mean 2-year mortality
+    increase_mean_mortality2Year = Stat.DifferenceStatPaired(
+        name='Increase in mean 2-year mortality',
+        x=multi_cohort_outcomes_NSB.mortality2Years,
+        y_ref=multi_cohort_outcomes_SOC.mortality2Years)
+
+    # estimate and PI
+    estimate_PI = increase_mean_mortality2Year.get_formatted_mean_and_interval(interval_type='p',
+                                                                              alpha=D.ALPHA,
+                                                                              deci=2)
+    print("Increase in mean 2-year mortality and {:.{prec}%} uncertainty interval:"
+          .format(1 - D.ALPHA, prec=0),
+          estimate_PI)
+
+    # increase in mean 5-year mortality
+    increase_mean_mortality5Year = Stat.DifferenceStatPaired(
+        name='Increase in mean 5-year mortality',
+        x=multi_cohort_outcomes_NSB.mortality5Years,
+        y_ref=multi_cohort_outcomes_SOC.mortality5Years)
+
+    # estimate and PI
+    estimate_PI = increase_mean_mortality5Year.get_formatted_mean_and_interval(interval_type='p',
+                                                                              alpha=D.ALPHA,
+                                                                              deci=2)
+    print("Increase in mean 5-year mortality and {:.{prec}%} uncertainty interval:"
+          .format(1 - D.ALPHA, prec=0),
+          estimate_PI)
+
     # increase in mean discounted cost under combination therapy with respect to mono therapy
     increase_mean_discounted_cost = Stat.DifferenceStatPaired(
         name='Increase in mean discounted cost',
-        x=multi_cohort_outcomes_combo.meanCosts,
-        y_ref=multi_cohort_outcomes_mono.meanCosts)
+        x=multi_cohort_outcomes_NSB.meanCosts,
+        y_ref=multi_cohort_outcomes_SOC.meanCosts)
 
     # estimate and PI
     estimate_PI = increase_mean_discounted_cost.get_formatted_mean_and_interval(interval_type='p',
@@ -128,45 +269,62 @@ def print_comparative_outcomes(multi_cohort_outcomes_mono, multi_cohort_outcomes
           .format(1 - D.ALPHA, prec=0),
           estimate_PI)
 
-    # increase in mean discounted QALY under combination therapy with respect to mono therapy
-    increase_mean_discounted_qaly = Stat.DifferenceStatPaired(
-        name='Increase in mean discounted QALY',
-        x=multi_cohort_outcomes_combo.meanQALYs,
-        y_ref=multi_cohort_outcomes_mono.meanQALYs)
 
-    # estimate and PI
-    estimate_PI = increase_mean_discounted_qaly.get_formatted_mean_and_interval(interval_type='p',
-                                                                                alpha=D.ALPHA,
-                                                                                deci=2)
-    print("Increase in mean discounted utility and {:.{prec}%} uncertainty interval:"
-          .format(1 - D.ALPHA, prec=0),
-          estimate_PI)
+    # # increase in mean discounted cost under combination therapy with respect to mono therapy
+    # increase_mean_discounted_cost_Presenting = Stat.DifferenceStatPaired(
+    #     name='Increase in mean discounted cost (among patients presenting)',
+    #     x=multi_cohort_outcomes_NSB.meanCostPresenting,
+    #     y_ref=multi_cohort_outcomes_SOC.meanCostPresenting)
+    #
+    # # estimate and PI
+    # estimate_PI = increase_mean_discounted_cost_Presenting.get_formatted_mean_and_interval(interval_type='p',
+    #                                                                             alpha=D.ALPHA,
+    #                                                                             deci=2,
+    #                                                                             form=',')
+    # print("Increase in mean discounted cost (among patients presenting) and {:.{prec}%} uncertainty interval:"
+    #       .format(1 - D.ALPHA, prec=0),
+    #       estimate_PI)
 
+    # # increase in mean discounted QALY under combination therapy with respect to mono therapy
+    # increase_mean_discounted_qaly = Stat.DifferenceStatPaired(
+    #     name='Increase in mean discounted QALY',
+    #     x=multi_cohort_outcomes_combo.meanQALYs,
+    #     y_ref=multi_cohort_outcomes_mono.meanQALYs)
+    #
+    # # estimate and PI
+    # estimate_PI = increase_mean_discounted_qaly.get_formatted_mean_and_interval(interval_type='p',
+    #                                                                             alpha=D.ALPHA,
+    #                                                                             deci=2)
+    # print("Increase in mean discounted utility and {:.{prec}%} uncertainty interval:"
+    #       .format(1 - D.ALPHA, prec=0),
+    #       estimate_PI)
+    #
 
-def report_CEA_CBA(multi_cohort_outcomes_mono, multi_cohort_outcomes_combo):
+def report_CEA_CBA(multi_cohort_outcomes_SOC, multi_cohort_outcomes_NSB):
     """ performs cost-effectiveness and cost-benefit analyses
-    :param multi_cohort_outcomes_mono: outcomes of a multi-cohort simulated under mono therapy
-    :param multi_cohort_outcomes_combo: outcomes of a multi-cohort simulated under combination therapy
+    :param multi_cohort_outcomes_SOC: outcomes of a multi-cohort simulated under SOC diagnostic
+    :param multi_cohort_outcomes_NSB: outcomes of a multi-cohort simulated under NSB diagnostic
     """
 
     # define two strategies
-    mono_therapy_strategy = Econ.Strategy(
-        name='Mono Therapy',
-        cost_obs=multi_cohort_outcomes_mono.meanCosts,
-        effect_obs=multi_cohort_outcomes_mono.meanQALYs,
+    SOC_diagnostic_strategy = Econ.Strategy(
+        name='SOC Diagnostic',
+        cost_obs=multi_cohort_outcomes_SOC.meanCosts,
+        effect_obs=multi_cohort_outcomes_SOC.totalYLL,
         color='green'
     )
-    combo_therapy_strategy = Econ.Strategy(
-        name='Combination Therapy',
-        cost_obs=multi_cohort_outcomes_combo.meanCosts,
-        effect_obs=multi_cohort_outcomes_combo.meanQALYs,
+    NSB_diagnostic_strategy = Econ.Strategy(
+        name='NSB Diagnostic',
+        cost_obs=multi_cohort_outcomes_NSB.meanCosts,
+        effect_obs=multi_cohort_outcomes_NSB.totalYLL,
         color='blue'
     )
 
     # do CEA
     CEA = Econ.CEA(
-        strategies=[mono_therapy_strategy, combo_therapy_strategy],
-        if_paired=True
+        strategies=[SOC_diagnostic_strategy, NSB_diagnostic_strategy],
+        if_paired=True,
+        health_measure='d'
     )
 
     # show the cost-effectiveness plane
@@ -182,7 +340,7 @@ def report_CEA_CBA(multi_cohort_outcomes_mono, multi_cohort_outcomes_combo):
 
     # CBA
     NBA = Econ.CBA(
-        strategies=[mono_therapy_strategy, combo_therapy_strategy],
+        strategies=[SOC_diagnostic_strategy, NSB_diagnostic_strategy],
         if_paired=True
     )
     # show the net monetary benefit figure
@@ -237,9 +395,9 @@ def show_ce_figure(CEA):
     plt.legend()        # show the legend
     plt.axhline(y=0, c='k', linewidth=0.5)  # horizontal line at y = 0
     plt.axvline(x=0, c='k', linewidth=0.5)  # vertical line at x = 0
-    plt.xlim([-2, 8])              # x-axis range
-    plt.ylim([-20000, 120000])     # y-axis range
+    plt.xlim([-2.5, 5])              # x-axis range
+    plt.ylim([-50, 1000])     # y-axis range
     plt.title('Cost-Effectiveness Analysis')
-    plt.xlabel('Additional discounted QALY')
+    plt.xlabel('Additional YLL')
     plt.ylabel('Additional discounted cost')
     plt.show()

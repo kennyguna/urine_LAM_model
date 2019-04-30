@@ -8,26 +8,25 @@ import scipy.stats as stat
 
 class Parameters:
 
-    def __init__(self, therapy):
+    def __init__(self, diagnostic):
 
-        self.therapy = therapy              # selected therapy
-        self.initialHealthState = HealthStates.CD4_200to500     # initial health state
-        self.annualTreatmentCost = 0        # annual treatment cost
+        self.diagnostic = diagnostic           # selected therapy
+        self.initialHealthState = HealthStates.INFECTED     # initial health state
+        self.annualTreatmentCost = []        # annual treatment cost
         self.rateMatrix = []                # transition probability matrix of the selected therapy
         self.annualStateCosts = []          # annual state costs
-        self.annualStateUtilities = []      # annual state utilities
         self.discountRate = Data.DISCOUNT   # discount rate
 
 
 class ParameterGenerator:
 
-    def __init__(self, therapy):
+    def __init__(self, diagnostic):
 
-        self.therapy = therapy
+        self.diagnostic = diagnostic
         self.probMatrixRVG = []     # list of dirichlet distributions for transition probabilities
-        self.lnRelativeRiskRVG = None  # normal distribution for the natural log of the treatment relative risk
         self.annualStateCostRVG = []  # list of gamma distributions for the annual cost of states
-        self.annualStateUtilityRVG = []  # list of beta distributions for the annual utility of states
+        # random number generator for diagnostic yield of test
+        # RNG for
 
         # create Dirichlet distributions for transition probabilities
         j = 0

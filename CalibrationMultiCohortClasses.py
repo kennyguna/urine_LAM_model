@@ -1,5 +1,5 @@
 from MarkovModelClasses import Cohort
-import ParameterClasses as P
+import CalibrationParameterClasses as P
 from ProbabilisticParamClasses import ParameterGenerator
 import SimPy.StatisticalClasses as Stat
 import SimPy.RandomVariantGenerators as RVGs
@@ -8,49 +8,26 @@ import SimPy.RandomVariantGenerators as RVGs
 class MultiCohort:
     """ simulates multiple cohorts with different parameters """
 
-    def __init__(self, ids, pop_size, parameters):
+    def __init__(self, ids, pop_sizes, mortality_probs):
         """
         :param ids: (list) of ids for cohorts to simulate
-        :param pop_size: (int) population size of cohorts to simulate
-        :param therapy: selected therapy
+        :param pop_sizes: (list) of population sizes of cohorts to simulate
+        :param mortality_probs: (list) of the mortality probabilities
         """
         self.ids = ids
-        self.popSize = pop_size
-        # self.param_sets = []  # list of parameter sets each of which corresponds to a cohort
-        self.params = parameters
-        self.cohorts = []
+        self.popSizes = pop_sizes
         self.multiCohortOutcomes = MultiCohortOutcomes()
+        self.parameters = []
+        self.cohorts = []
+        for i in range(len(self.ids)):
+            self.parameters.append(P.ParametersFixed(diagnostic=P.Diagnostic.SOC, calibrate_mortality=mortality_probs[i]))
 
         # create cohorts
         for i in range(len(self.ids)):
             self.cohorts.append(Cohort(id=self.ids[i],
-                                       pop_size=self.popSize,
-                                       parameters=parameters)
+                                       pop_size=self.popSizes[i],
+                                       parameters=self.parameters[i])
                                 )
-
-    ######## COMMENTED CODE BELOW CORRESPONDS TO SENSITIVITY ANALYSIS ######################
-
-        # # create parameter sets
-        # self.__populate_parameter_sets(therapy=therapy)
-
-        # # create cohorts
-        # for i in range(len(self.ids)):
-        #     self.cohorts.append(Cohort(id=self.ids[i],
-        #                                pop_size=self.popSize,
-        #                                parameters=self.param_sets[i])
-        #                         )
-
-    # def __populate_parameter_sets(self, therapy):
-    #
-    #     # create a parameter set generator
-    #     param_generator = ParameterGenerator(therapy=therapy)
-    #
-    #     # create as many sets of parameters as the number of cohorts
-    #     for i in range(len(self.ids)):
-    #         # create a new random number generator for each parameter set
-    #         rng = RVGs.RNG(seed=i)
-    #         # get and store a new set of parameter
-    #         self.param_sets.append(param_generator.get_new_parameters(rng=rng))
 
     def simulate(self, sim_length):
         """ simulates all cohorts
@@ -67,9 +44,9 @@ class MultiCohort:
 
         # calculate the summary statistics of outcomes from all cohorts
         self.multiCohortOutcomes.calculate_summary_stats()
-
-        # clear cohorts (to free up the memory that was allocated to these cohorts)
-        self.cohorts.clear()
+        #
+        # # clear cohorts (to free up the memory that was allocated to these cohorts)
+        # self.cohorts.clear()
 
 
 class MultiCohortOutcomes:

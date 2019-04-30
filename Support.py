@@ -137,11 +137,12 @@ def print_outcomes(sim_outcomes, diagnostic_name):
     print(diagnostic_name)
     print("  Number of individuals hospitalized:", sim_outcomes.nHospitalized)
     print("  Total Years of Life Lost:", sim_outcomes.totalYLL)
-    print("  56-day mortality after presenting:", sim_outcomes.nMortality56Day/D.POP_SIZE)
-    print("  2-month mortality:", sim_outcomes.nMortality2Months/D.POP_SIZE)
-    print("  1-year mortality:", sim_outcomes.nMortality1Year/D.POP_SIZE)
-    print("  2-year mortality:", sim_outcomes.nMortality2Years/D.POP_SIZE)
-    print("  5-year mortality:", sim_outcomes.nMortality5Years/D.POP_SIZE)
+
+    print("  56-day mortality after presenting:", sim_outcomes.mortality56Day)
+    print("  2-month mortality:", sim_outcomes.mortality2Months)
+    print("  1-year mortality:", sim_outcomes.mortality1Year)
+    print("  2-year mortality:", sim_outcomes.mortality2Years)
+    print("  5-year mortality:", sim_outcomes.mortality5Years)
 
     print("  Number of individuals passing through state HOSP_TBM:", sim_outcomes.nHOSP_TBM)
     print("  Number of individuals passing through state HOSP_TBD:", sim_outcomes.nHOSP_TBD)
@@ -404,11 +405,10 @@ def plot_survival_curves_and_histograms(sim_outcomes_mono, sim_outcomes_combo):
     )
 
 
-def print_comparative_outcomes(sim_outcomes_mono, sim_outcomes_combo):
-    """ prints average increase in survival time, discounted cost, and discounted utility
-    under combination therapy compared to mono therapy
-    :param sim_outcomes_mono: outcomes of a cohort simulated under mono therapy
-    :param sim_outcomes_combo: outcomes of a cohort simulated under combination therapy
+def print_comparative_outcomes(sim_outcomes_SOC, sim_outcomes_NSB):
+    """
+    :param sim_outcomes_SOC: outcomes of a cohort simulated under SOC diagnostics
+    :param sim_outcomes_NSB: outcomes of a cohort simulated under NSB diagnostics
     """
 
     # increase in mean survival time under combination therapy with respect to mono therapy
@@ -455,30 +455,31 @@ def print_comparative_outcomes(sim_outcomes_mono, sim_outcomes_combo):
           estimate_CI)
 
 
-def report_CEA_CBA(sim_outcomes_mono, sim_outcomes_combo):
+def report_CEA_CBA(sim_outcomes_SOC, sim_outcomes_NSB):
     """ performs cost-effectiveness and cost-benefit analyses
     :param sim_outcomes_mono: outcomes of a cohort simulated under mono therapy
     :param sim_outcomes_combo: outcomes of a cohort simulated under combination therapy
     """
 
     # define two strategies
-    mono_therapy_strategy = Econ.Strategy(
-        name='Mono Therapy',
-        cost_obs=sim_outcomes_mono.costs,
-        effect_obs=sim_outcomes_mono.utilities,
+    SOC_diagnostic_strategy = Econ.Strategy(
+        name='SOC Diagnostic',
+        cost_obs=sim_outcomes_SOC.costsPresenting,
+        effect_obs=sim_outcomes_SOC.listYLLPresenting,
         color='green'
     )
-    combo_therapy_strategy = Econ.Strategy(
-        name='Combination Therapy',
-        cost_obs=sim_outcomes_combo.costs,
-        effect_obs=sim_outcomes_combo.utilities,
+    sim_outcomes_NSB = Econ.Strategy(
+        name='NSB Diagnostic',
+        cost_obs=sim_outcomes_NSB.costsPresenting,
+        effect_obs=sim_outcomes_NSB.listYLLPresenting,
         color='blue'
     )
 
     # do CEA
     CEA = Econ.CEA(
-        strategies=[mono_therapy_strategy, combo_therapy_strategy],
-        if_paired=False
+        strategies=[SOC_diagnostic_strategy, sim_outcomes_NSB],
+        if_paired=False,
+        health_measure='d'
     )
 
     # show the cost-effectiveness plane
@@ -494,7 +495,7 @@ def report_CEA_CBA(sim_outcomes_mono, sim_outcomes_combo):
 
     # CBA
     NBA = Econ.CBA(
-        strategies=[mono_therapy_strategy, combo_therapy_strategy],
+        strategies=[SOC_diagnostic_strategy, sim_outcomes_NSB],
         if_paired=False
     )
     # show the net monetary benefit figure
@@ -502,7 +503,7 @@ def report_CEA_CBA(sim_outcomes_mono, sim_outcomes_combo):
         min_wtp=0,
         max_wtp=50000,
         title='Cost-Benefit Analysis',
-        x_label='Willingness-to-pay for one additional QALY ($)',
+        x_label='Willingness-to-pay for one additional YLL ($)',
         y_label='Incremental Net Monetary Benefit ($)',
         interval_type='c',
         show_legend=True,
@@ -546,7 +547,7 @@ def show_ce_figure(CEA):
     plt.xlim([-2.5, 10])              # x-axis range
     plt.ylim([-50000, 200000])     # y-axis range
     plt.title('Cost-Effectiveness Analysis')
-    plt.xlabel('Additional discounted utility')
+    plt.xlabel('Additional YLL')
     plt.ylabel('Additional discounted cost')
     plt.show()
 

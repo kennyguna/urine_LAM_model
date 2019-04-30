@@ -4,6 +4,7 @@ import SimPy.SamplePathClasses as Path
 import SimPy.EconEvalClasses as Econ
 import SimPy.StatisticalClasses as Stat
 import SimPy.MarkovClasses as Markov
+import InputData as D
 
 
 class Patient:
@@ -332,10 +333,20 @@ class CohortOutcomes:
         self.nMortality56Day = 0
         self.nHospitalized = 0
         self.totalYLL = 0
+
+        self.listYLL = []
+        self.listYLLPresenting = []
+
         self.nMortality1Year = 0
         self.nMortality2Months = 0
         self.nMortality5Years = 0
         self.nMortality2Years = 0
+
+        self.mortality56Day = 0
+        self.mortality2Months = 0
+        self.mortality1Year = 0
+        self.mortality2Years = 0
+        self.mortality5Years = 0
 
         # self.statTimeINFECTEDtoHOSP_TBD = None
         # self.statTimeINFECTEDtoHOSP_TBM = None
@@ -449,12 +460,20 @@ class CohortOutcomes:
             # discounted cost of all the patients who present to healthcare
             if not patient.stateMonitor.ifINFECTEDtoCLEARED:
                 self.costsPresenting.append(patient.stateMonitor.costUtilityMonitor.totalDiscountedCost)
+                if patient.stateMonitor.survivalTime is None:
+                    self.listYLLPresenting.append(0)
+                else:
+                    self.listYLLPresenting.append(62.77-(patient.stateMonitor.survivalTime/52))
                 if patient.stateMonitor.mortality56Day:
                     self.nMortality56Day += 1
 
             # total YLL due to TB infection
             if not patient.stateMonitor.ifCLEARED:
                 self.totalYLL += 62.77-(patient.stateMonitor.survivalTime/52)
+                if patient.stateMonitor.survivalTime is None:
+                    self.listYLL.append(0)
+                else:
+                    self.listYLL.append(62.77-(patient.stateMonitor.survivalTime/52))
 
             if patient.stateMonitor.mortality2Months:
                 self.nMortality2Months += 1
@@ -467,6 +486,11 @@ class CohortOutcomes:
 
         # Gather Data
         self.nHospitalized = self.nHOSP_TBD + self.nHOSP_TBM
+        self.mortality56Day = self.nMortality56Day/D.POP_SIZE
+        self.mortality2Months = self.nMortality2Months/D.POP_SIZE
+        self.mortality1Year = self.nMortality1Year/D.POP_SIZE
+        self.mortality2Years = self.nMortality2Years/D.POP_SIZE
+        self.mortality5Years = self.nMortality5Years/D.POP_SIZE
 
         # self.timesINFECTED = self.timesINFECTEDtoCLEARED + self.timesINFECTEDtoDX_TBD + self.timesINFECTEDtoHOSP_TBM + \
         #     self.timesINFECTEDtoHOSP_TBD
