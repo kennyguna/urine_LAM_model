@@ -1,8 +1,9 @@
 
 # simulation settings
-N_COHORTS = 20  # number of cohorts
 POP_SIZE = 5000     # cohort population size
+N_COHORTS = 20
 SIM_LENGTH = 10*52   # length of simulation (years)
+#SIM_LENGTH = 1*52   # length of simulation (years)
 ALPHA = 0.05        # significance level for calculating confidence intervals
 DISCOUNT = 0.03     # annual discount rate
 

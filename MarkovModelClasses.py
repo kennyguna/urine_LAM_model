@@ -469,11 +469,11 @@ class CohortOutcomes:
 
             # total YLL due to TB infection
             if not patient.stateMonitor.ifCLEARED:
-                self.totalYLL += 62.77-(patient.stateMonitor.survivalTime/52)
-                if patient.stateMonitor.survivalTime is None:
-                    self.listYLL.append(0)
-                else:
+                if not(patient.stateMonitor.survivalTime is None):
+                    self.totalYLL += 62.77 - (patient.stateMonitor.survivalTime / 52)
                     self.listYLL.append(62.77-(patient.stateMonitor.survivalTime/52))
+                else:
+                    self.listYLL.append(0)
 
             if patient.stateMonitor.mortality2Months:
                 self.nMortality2Months += 1
@@ -525,7 +525,7 @@ class CohortOutcomes:
         # self.statTimesCLEARED = Stat.SummaryStat('Cleared', self.timesCLEARED)
 
         self.statCost = Stat.SummaryStat('Discounted cost', self.costs)
-        self.statCostPresenting = Stat.SummaryStat('Discounted cost (Presenting)', self.costsPresenting)
+        # self.statCostPresenting = Stat.SummaryStat('Discounted cost (Presenting)', self.costsPresenting)
         # self.statUtility = Stat.SummaryStat('Discounted utility', self.utilities)
 
         # survival curve

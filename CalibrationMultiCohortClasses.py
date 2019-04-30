@@ -8,7 +8,7 @@ import SimPy.RandomVariantGenerators as RVGs
 class MultiCohort:
     """ simulates multiple cohorts with different parameters """
 
-    def __init__(self, ids, pop_sizes, mortality_probs):
+    def __init__(self, ids, pop_sizes, mortality_probs, diagnostic):
         """
         :param ids: (list) of ids for cohorts to simulate
         :param pop_sizes: (list) of population sizes of cohorts to simulate
@@ -20,7 +20,7 @@ class MultiCohort:
         self.parameters = []
         self.cohorts = []
         for i in range(len(self.ids)):
-            self.parameters.append(P.ParametersFixed(diagnostic=P.Diagnostic.SOC, calibrate_mortality=mortality_probs[i]))
+            self.parameters.append(P.ParametersFixed(diagnostic=diagnostic[i], calibrate_mortality=mortality_probs[i]))
 
         # create cohorts
         for i in range(len(self.ids)):
@@ -64,7 +64,7 @@ class MultiCohortOutcomes:
         self.nHospitalized = []
         self.totalYLL = []
         self.meanCosts = []          # list of average patient cost from each simulated cohort
-        self.meanCostPresenting = []
+        # self.meanCostPresenting = []
 
         self.statMeanSurvivalTime = None    # this is not a very useful statistic for this cohort
         self.statMortality56Day = None
@@ -76,7 +76,7 @@ class MultiCohortOutcomes:
         self.statNHospitalized = None
         self.statTotalYLL = None
         self.statMeanCost = None            # summary statistics of average cost
-        self.statMeanCostPresenting = None
+        # self.statMeanCostPresenting = None
 
     def extract_outcomes(self, simulated_cohort):
         """ extracts outcomes of a simulated cohort
@@ -97,7 +97,7 @@ class MultiCohortOutcomes:
         # store mean cost from this cohort
         self.meanCosts.append(simulated_cohort.cohortOutcomes.statCost.get_mean())
         # store mean cost from this cohort
-        self.meanCostPresenting.append(simulated_cohort.cohortOutcomes.statCostPresenting.get_mean())
+        # self.meanCostPresenting.append(simulated_cohort.cohortOutcomes.statCostPresenting.get_mean())
 
     def calculate_summary_stats(self):
         """
@@ -125,7 +125,7 @@ class MultiCohortOutcomes:
         # summary statistics of mean cost
         self.statMeanCost = Stat.SummaryStat(name='Average cost',
                                              data=self.meanCosts)
-        # summary statistics of mean cost
-        self.statMeanCostPresenting = Stat.SummaryStat(name='Average cost presenting',
-                                                       data=self.meanCostPresenting)
+        # # summary statistics of mean cost
+        # self.statMeanCostPresenting = Stat.SummaryStat(name='Average cost presenting',
+        #                                                data=self.meanCostPresenting)
 

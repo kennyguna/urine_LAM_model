@@ -140,12 +140,13 @@ class CalibratedModel:
         self.mortalityProbs = cols[CalibrationColIndex.MORT_PROB.value]
         self.multiCohorts = None  # multi-cohort
 
-    def simulate(self, num_of_simulated_cohorts, cohort_size, sim_length, cohort_ids=None):
+    def simulate(self, num_of_simulated_cohorts, cohort_size, sim_length, diagnostic, cohort_ids=None):
         """ simulate the specified number of cohorts based on their associated likelihood weight
         :param num_of_simulated_cohorts: number of cohorts to simulate
         :param cohort_size: the population size of cohorts
         :param time_steps: simulation length
         :param cohort_ids: ids of cohort to simulate
+        :param diagnostic:
         """
         # resample cohort IDs and mortality probabilities based on their likelihood weights
         # sample (with replacement) from indices [0, 1, 2, ..., number of weights] based on the likelihood weights
@@ -168,7 +169,8 @@ class CalibratedModel:
             self.multiCohorts = Cls.MultiCohort(
                 ids=resampled_ids,
                 mortality_probs=resampled_probs,  # list of resampled probabilities
-                pop_sizes=[cohort_size] * num_of_simulated_cohorts
+                pop_sizes=[cohort_size] * num_of_simulated_cohorts,
+                diagnostic=[diagnostic] * num_of_simulated_cohorts
             )
 
             # self.multiCohorts = Cls.MultiCohort(ids=resampled_ids,

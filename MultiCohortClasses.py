@@ -7,8 +7,12 @@ import SimPy.RandomVariantGenerators as RVGs
 
 class MultiCohort:
     """ simulates multiple cohorts with different parameters """
+    #### use code below for generated parameters
 
-    def __init__(self, ids, pop_size, parameters):
+    def __init__(self, ids, pop_size, diagnostic):
+
+    #### use code below for fixed parameters
+    #  def __init__(self, ids, pop_size, parameters):
         """
         :param ids: (list) of ids for cohorts to simulate
         :param pop_size: (int) population size of cohorts to simulate
@@ -16,41 +20,54 @@ class MultiCohort:
         """
         self.ids = ids
         self.popSize = pop_size
-        # self.param_sets = []  # list of parameter sets each of which corresponds to a cohort
-        self.params = parameters
+
+
+        #### use below for generated
+        self.param_sets = []  # list of parameter sets each of which corresponds to a cohort
+
+        #### use below for fixed parameters
+        # self.params = parameters
+
+
         self.cohorts = []
         self.multiCohortOutcomes = MultiCohortOutcomes()
+
+
+    ######## COMMENTED CODE BELOW CORRESPONDS TO GENERATED PARAMETERS ######################
+
+        # create parameter sets
+        self.__populate_parameter_sets(diagnostic=diagnostic)
 
         # create cohorts
         for i in range(len(self.ids)):
             self.cohorts.append(Cohort(id=self.ids[i],
                                        pop_size=self.popSize,
-                                       parameters=parameters)
+                                       parameters=self.param_sets[i])
                                 )
+            # print(self.param_sets[i].rate_matrix)
+            # print(self.param_sets[i].weeklyStateCosts)
+            # print(self.param_sets[i].singleCosts)
 
-    ######## COMMENTED CODE BELOW CORRESPONDS TO SENSITIVITY ANALYSIS ######################
+    ###### COMMENTED CODE BELOW IS FOR FIXED PARAMETERS
 
-        # # create parameter sets
-        # self.__populate_parameter_sets(therapy=therapy)
+    # # create cohorts
+    # for i in range(len(self.ids)):
+    #     self.cohorts.append(Cohort(id=self.ids[i],
+    #                                pop_size=self.popSize,
+    #                                parameters=parameters)
+    #                         )
 
-        # # create cohorts
-        # for i in range(len(self.ids)):
-        #     self.cohorts.append(Cohort(id=self.ids[i],
-        #                                pop_size=self.popSize,
-        #                                parameters=self.param_sets[i])
-        #                         )
+    def __populate_parameter_sets(self, diagnostic):
 
-    # def __populate_parameter_sets(self, therapy):
-    #
-    #     # create a parameter set generator
-    #     param_generator = ParameterGenerator(therapy=therapy)
-    #
-    #     # create as many sets of parameters as the number of cohorts
-    #     for i in range(len(self.ids)):
-    #         # create a new random number generator for each parameter set
-    #         rng = RVGs.RNG(seed=i)
-    #         # get and store a new set of parameter
-    #         self.param_sets.append(param_generator.get_new_parameters(rng=rng))
+        # create a parameter set generator
+        param_generator = ParameterGenerator(diagnostic=diagnostic)
+
+        # create as many sets of parameters as the number of cohorts
+        for i in range(len(self.ids)):
+            # create a new random number generator for each parameter set
+            rng = RVGs.RNG(seed=i)
+            # get and store a new set of parameter
+            self.param_sets.append(param_generator.get_new_parameters(rng=rng))
 
     def simulate(self, sim_length):
         """ simulates all cohorts
@@ -120,7 +137,7 @@ class MultiCohortOutcomes:
         # store mean cost from this cohort
         self.meanCosts.append(simulated_cohort.cohortOutcomes.statCost.get_mean())
         # store mean cost from this cohort
-        self.meanCostPresenting.append(simulated_cohort.cohortOutcomes.statCostPresenting.get_mean())
+        #self.meanCostPresenting.append(simulated_cohort.cohortOutcomes.statCostPresenting.get_mean())
 
     def calculate_summary_stats(self):
         """
@@ -149,6 +166,6 @@ class MultiCohortOutcomes:
         self.statMeanCost = Stat.SummaryStat(name='Average cost',
                                              data=self.meanCosts)
         # summary statistics of mean cost
-        self.statMeanCostPresenting = Stat.SummaryStat(name='Average cost presenting',
-                                                       data=self.meanCostPresenting)
+        #self.statMeanCostPresenting = Stat.SummaryStat(name='Average cost presenting',
+        #                                               data=self.meanCostPresenting)
 

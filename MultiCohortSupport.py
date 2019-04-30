@@ -73,11 +73,11 @@ def print_outcomes(multi_cohort_outcomes, diagnostic):
                                          form=',')
 
     # mean and prediction interval text of discounted total cost
-    costPresenting_mean_PI_text = multi_cohort_outcomes.statMeanCostPresenting\
-        .get_formatted_mean_and_interval(interval_type='p',
-                                         alpha=D.ALPHA,
-                                         deci=0,
-                                         form=',')
+    # costPresenting_mean_PI_text = multi_cohort_outcomes.statMeanCostPresenting\
+    #     .get_formatted_mean_and_interval(interval_type='p',
+    #                                      alpha=D.ALPHA,
+    #                                      deci=0,
+    #                                      form=',')
     # print outcomes
     print(diagnostic)
     print("  Estimate of mean survival time and {:.{prec}%} uncertainty interval:".format(1 - D.ALPHA, prec=0),
@@ -101,52 +101,52 @@ def print_outcomes(multi_cohort_outcomes, diagnostic):
           TotalYLL_mean_PI_text)
     print("  Estimate of mean discounted cost and {:.{prec}%} uncertainty interval:".format(1 - D.ALPHA, prec=0),
           cost_mean_PI_text)
-    print("  Estimate of mean discounted cost (Patients Presenting) and {:.{prec}%} uncertainty interval:".format(1 - D.ALPHA, prec=0),
-          costPresenting_mean_PI_text)
+    # print("  Estimate of mean discounted cost (Patients Presenting) and {:.{prec}%} uncertainty interval:".format(1 - D.ALPHA, prec=0),
+    #       costPresenting_mean_PI_text)
     print("")
 
 
-def plot_survival_curves_and_histograms(multi_cohort_outcomes_mono, multi_cohort_outcomes_combo):
+def plot_survival_curves_and_histograms(multi_cohort_outcomes_SOC, multi_cohort_outcomes_NSB):
     """ plot the survival curves and the histograms of survival times
-    :param multi_cohort_outcomes_mono: outcomes of a multi-cohort simulated under mono therapy
-    :param multi_cohort_outcomes_combo: outcomes of a multi-cohort simulated under combination therapy
+    :param multi_cohort_outcomes_SOC: outcomes of a multi-cohort simulated under mono therapy
+    :param multi_cohort_outcomes_NSB: outcomes of a multi-cohort simulated under combination therapy
     """
 
     # get survival curves of both treatments
     sets_of_survival_curves = [
-        multi_cohort_outcomes_mono.survivalCurves,
-        multi_cohort_outcomes_combo.survivalCurves
+        multi_cohort_outcomes_SOC.survivalCurves,
+        multi_cohort_outcomes_NSB.survivalCurves
     ]
 
     # graph survival curve
     PathCls.graph_sets_of_sample_paths(
         sets_of_sample_paths=sets_of_survival_curves,
         title='Survival Curves',
-        x_label='Simulation Time Step (year)',
+        x_label='Simulation Time Step (week)',
         y_label='Number of Patients Alive',
-        legends=['Mono Therapy', 'Combination Therapy'],
+        legends=['SOC Diagnostic', 'NSB Diagnostic'],
         transparency=0.4,
         color_codes=['green', 'blue']
     )
 
-    # histograms of survival times
-    set_of_survival_times = [
-        multi_cohort_outcomes_mono.meanSurvivalTimes,
-        multi_cohort_outcomes_combo.meanSurvivalTimes
-    ]
-
-    # graph histograms
-    Figs.graph_histograms(
-        data_sets=set_of_survival_times,
-        title='Histograms of Average Patient Survival Time',
-        x_label='Survival Time (year)',
-        y_label='Counts',
-        bin_width=0.25,
-        x_range=[5.25, 17.75],
-        legends=['Mono Therapy', 'Combination Therapy'],
-        color_codes=['green', 'blue'],
-        transparency=0.5
-    )
+    # # histograms of survival times
+    # set_of_survival_times = [
+    #     multi_cohort_outcomes_SOC.meanSurvivalTimes,
+    #     multi_cohort_outcomes_NSB.meanSurvivalTimes
+    # ]
+    #
+    # # graph histograms
+    # Figs.graph_histograms(
+    #     data_sets=set_of_survival_times,
+    #     title='Histograms of Average Patient Survival Time',
+    #     x_label='Survival Time (year)',
+    #     y_label='Counts',
+    #     bin_width=0.25,
+    #     x_range=[5.25, 17.75],
+    #     legends=['SOC Diagnostic', 'NSB Diagnostic'],
+    #     color_codes=['green', 'blue'],
+    #     transparency=0.5
+    # )
 
 
 def print_comparative_outcomes(multi_cohort_outcomes_SOC, multi_cohort_outcomes_NSB):
@@ -341,7 +341,8 @@ def report_CEA_CBA(multi_cohort_outcomes_SOC, multi_cohort_outcomes_NSB):
     # CBA
     NBA = Econ.CBA(
         strategies=[SOC_diagnostic_strategy, NSB_diagnostic_strategy],
-        if_paired=True
+        if_paired=True,
+        health_measure='d'
     )
     # show the net monetary benefit figure
     NBA.graph_incremental_NMBs(

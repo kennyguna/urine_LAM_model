@@ -22,35 +22,25 @@ class Diagnostic(Enum):
 
 class ParametersFixed:
     def __init__(self, diagnostic):
-
         # selected therapy
         self.diagnostic = diagnostic
-
         # initial health state
         self.initialHealthState = HealthStates.INFECTED
-
         # single cost at each health state
         # assume that the intervention diagnostic is going to be the original diagnostic + the NSB diagnostic
         if self.diagnostic == Diagnostic.SOC:
             self.singleCosts = Data.SOC_ONE_TIME_COST
         else:
             self.singleCosts = Data.NSB_ONE_TIME_COST
-
         # # rate matrix
         # if self.diagnostic == Diagnostic.SOC:
         #     self.rateMatrix = Data.SOC_RATE_TRANS_MATRIX
         # else:
         #     self.rateMatrix = Data.NSB_RATE_TRANS_MATRIX
-
         # get rate matrix
         self.rateMatrix = get_rate_matrix(self.diagnostic)
-
         # weekly cost at each health state
         self.weeklyStateCosts = Data.WEEKLY_STATE_COST
-
-        # weekly utility at each health state
-        # self.weeklyUtility = Data.WEEKLY_STATE_UTILITY
-
         # discount rate
         self.discountRate = Data.DISCOUNT
 
