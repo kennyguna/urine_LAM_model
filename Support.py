@@ -121,11 +121,11 @@ def print_outcomes(sim_outcomes, diagnostic_name):
                                          deci=0,
                                          form=',')
 
-    costPresenting_mean_CI_text = sim_outcomes.statCostPresenting \
-        .get_formatted_mean_and_interval(interval_type='c',
-                                         alpha=D.ALPHA,
-                                         deci=0,
-                                         form=',')
+    # costPresenting_mean_CI_text = sim_outcomes.statCostPresenting \
+    #     .get_formatted_mean_and_interval(interval_type='c',
+    #                                      alpha=D.ALPHA,
+    #                                      deci=0,
+    #                                      form=',')
 
     # # mean and confidence interval text of discounted total utility
     # utility_mean_CI_text = sim_outcomes.statUtility\
@@ -196,8 +196,8 @@ def print_outcomes(sim_outcomes, diagnostic_name):
 
     print("  Estimate of discounted cost and {:.{prec}%} confidence interval:".format(1 - D.ALPHA, prec=0),
           cost_mean_CI_text)
-    print("  Estimate of discounted cost among patients presenting and {:.{prec}%} confidence interval:".format(1 - D.ALPHA, prec=0),
-          costPresenting_mean_CI_text)
+    # print("  Estimate of discounted cost among patients presenting and {:.{prec}%} confidence interval:".format(1 - D.ALPHA, prec=0),
+    #       costPresenting_mean_CI_text)
     # print("  Estimate of discounted utility and {:.{prec}%} confidence interval:".format(1 - D.ALPHA, prec=0),
     #       utility_mean_CI_text)
     print("")

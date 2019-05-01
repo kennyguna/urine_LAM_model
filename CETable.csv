@@ -1,3 +1,3 @@
 Name,E[Cost],E[Effect],E[dCost],E[dEffect],ICER
-NSB Diagnostic,"120 (116, 126)","46,089.67 (44,141.99, 48,704.85)",-,-,-
-SOC Diagnostic,"158 (155, 165)","83,096.44 (82,367.68, 85,160.17)",-,-,Dominated
+NSB Diagnostic,"124 (5, 324)","63,137.91 (2,592.65, 140,194.24)",-,-,-
+SOC Diagnostic,"165 (8, 413)","94,935.43 (5,447.13, 195,292.45)",-,-,Dominated

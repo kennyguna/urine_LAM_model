@@ -12,7 +12,7 @@ class MultiCohort:
     def __init__(self, ids, pop_size, diagnostic):
 
     #### use code below for fixed parameters
-    #  def __init__(self, ids, pop_size, parameters):
+    # def __init__(self, ids, pop_size, parameters):
         """
         :param ids: (list) of ids for cohorts to simulate
         :param pop_size: (int) population size of cohorts to simulate
@@ -32,30 +32,14 @@ class MultiCohort:
         self.cohorts = []
         self.multiCohortOutcomes = MultiCohortOutcomes()
 
-
-    ######## COMMENTED CODE BELOW CORRESPONDS TO GENERATED PARAMETERS ######################
-
-        # create parameter sets
         self.__populate_parameter_sets(diagnostic=diagnostic)
 
-        # create cohorts
+    # create cohorts
         for i in range(len(self.ids)):
             self.cohorts.append(Cohort(id=self.ids[i],
                                        pop_size=self.popSize,
                                        parameters=self.param_sets[i])
-                                )
-            # print(self.param_sets[i].rate_matrix)
-            # print(self.param_sets[i].weeklyStateCosts)
-            # print(self.param_sets[i].singleCosts)
-
-    ###### COMMENTED CODE BELOW IS FOR FIXED PARAMETERS
-
-    # # create cohorts
-    # for i in range(len(self.ids)):
-    #     self.cohorts.append(Cohort(id=self.ids[i],
-    #                                pop_size=self.popSize,
-    #                                parameters=parameters)
-    #                         )
+                        )
 
     def __populate_parameter_sets(self, diagnostic):
 
@@ -68,6 +52,30 @@ class MultiCohort:
             rng = RVGs.RNG(seed=i)
             # get and store a new set of parameter
             self.param_sets.append(param_generator.get_new_parameters(rng=rng))
+
+
+    ######## COMMENTED CODE BELOW CORRESPONDS TO GENERATED PARAMETERS ######################
+
+        # # create parameter sets
+
+              # print(self.param_sets[i].rate_matrix)
+            # print(self.param_sets[i].weeklyStateCosts)
+            # print(self.param_sets[i].singleCosts)
+
+
+
+
+    ##### COMMENTED CODE BELOW IS FOR FIXED PARAMETERS
+
+    # # create cohorts
+    #     for i in range(len(self.ids)):
+    #         self.cohorts.append(Cohort(id=self.ids[i],
+    #                                    pop_size=self.popSize,
+    #                                    parameters=parameters)
+    #                             )
+
+
+
 
     def simulate(self, sim_length):
         """ simulates all cohorts

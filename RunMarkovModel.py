@@ -37,12 +37,33 @@ Support.print_outcomes(sim_outcomes=myCohort_NSB.cohortOutcomes,
 Support.print_histograms(sim_outcomes=myCohort_NSB.cohortOutcomes,
                          diagnostic_name=P.Diagnostic.NSB)
 
-# PathCls.graph_sample_path(
-#     sample_path=myCohort.cohortOutcomes.nLivingPatients,
-#     title=f'Survival Curve {diagnostic}',
-#     x_label='Time-Step (Week)',
-#     y_label='Number Survived')
-#
+PathCls.graph_sample_path(
+    sample_path=myCohort.cohortOutcomes.nLivingPatients,
+    title='Survival Curve (Standard of Care Diagnostic)',
+    x_label='Time-Step (Week)',
+    y_label='Number Survived')
+
+PathCls.graph_sample_path(
+    sample_path=myCohort_NSB.cohortOutcomes.nLivingPatients,
+    title='Survival Curve (SOC + Urine LAM)',
+    x_label='Time-Step (Week)',
+    y_label='Number Survived')
+
+survival_curves = [
+    myCohort.cohortOutcomes.nLivingPatients,
+    myCohort_NSB.cohortOutcomes.nLivingPatients
+]
+
+# graph survival curve
+# graph survival curve
+PathCls.graph_sample_paths(
+    sample_paths=survival_curves,
+    title='Survival curve',
+    x_label='Simulation time step (year)',
+    y_label='Number of alive patients',
+    legends=['SOC Diagnostic', 'NSB Diagnostic']
+)
+
 # Fig.graph_histogram(
 #     data=myCohort.cohortOutcomes.costs,
 #     title=f'Histogram of Cost {diagnostic}',

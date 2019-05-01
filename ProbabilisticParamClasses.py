@@ -40,7 +40,11 @@ class ParameterGenerator:
         self.probInfectedRVG = RVGs.Dirichlet(a=[Data.P_INFECTED_CLEARED, Data.P_INFECTED_TBD, Data.P_INFECTED_TBM])
 
         # crate beta distribution for the alpha probability
-        fit_output = MM.get_beta_params(mean=Data.P_DX_NSB, st_dev=Data.P_DX_NSB/5)
+        if self.diagnostic == Diagnostic.SOC:
+            fit_output = MM.get_beta_params(mean=Data.P_DX_SOC, st_dev=Data.P_DX_SOC/5)
+        else:
+            fit_output = MM.get_beta_params(mean=Data.P_DX_NSB, st_dev=Data.P_DX_NSB / 5)
+
         self.probAlphaRVG = RVGs.Beta(a=fit_output["a"], b=fit_output["b"])
 
         # create gamma distributions for annual state cost
@@ -92,10 +96,7 @@ class ParameterGenerator:
         # P_alpha is changed by the beta distribution (only if therapy)
 
         # calculate new rate matrix
-        if self.diagnostic == Diagnostic.SOC:
-            P_alpha = Data.P_DX_SOC
-        else:
-            P_alpha = self.probAlphaRVG.sample(rng)  # how to draw from a beta distribution
+        P_alpha = self.probAlphaRVG.sample(rng)  # how to draw from a beta distribution
 
         P_beta = Data.P_DEATH_IN_HOSP
 

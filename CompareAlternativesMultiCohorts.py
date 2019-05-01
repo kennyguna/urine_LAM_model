@@ -4,15 +4,15 @@ import InputData as D
 import MultiCohortSupport as Support
 
 
-### initialization based on generating new parameters
+# ### initialization based on generating new parameters
 multiCohort_SOC = Cls.MultiCohort(
     ids=range(D.N_COHORTS),
     pop_size=D.POP_SIZE,
     diagnostic=P.Diagnostic.SOC
 )
 
-### initialization based on generating fixed parameters
-# create a multi-cohort to simulate under mono therapy
+## initialization based on generating fixed parameters
+##create a multi-cohort to simulate under mono therapy
 # multiCohort_SOC = Cls.MultiCohort(
 #     ids=range(D.N_COHORTS),
 #     pop_size=D.POP_SIZE,
@@ -21,15 +21,15 @@ multiCohort_SOC = Cls.MultiCohort(
 
 multiCohort_SOC.simulate(sim_length=D.SIM_LENGTH)
 
-### initialization based on generating new parameters
+# ### initialization based on generating new parameters
 multiCohort_NSB = Cls.MultiCohort(
     ids=range(D.N_COHORTS, 2*D.N_COHORTS),
     pop_size=D.POP_SIZE,
     diagnostic=P.Diagnostic.NSB
 )
 
-### initializatino based on generating fixed parameters
-# create a multi-cohort to simulate under combo therapy
+## initializatino based on generating fixed parameters
+##create a multi-cohort to simulate under combo therapy
 # multiCohort_NSB = Cls.MultiCohort(
 #     ids=range(D.N_COHORTS, 2*D.N_COHORTS),
 #     pop_size=D.POP_SIZE,
